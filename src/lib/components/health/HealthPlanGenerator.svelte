@@ -1,35 +1,9 @@
 <script lang="ts">
-  import { healthStore } from '$lib/stores/healthStore';
-  import type { HealthPlan } from '$lib/types';
-
-  let healthPlan: HealthPlan = { id: '', name: '', goals: [] };
-
-  async function generateHealthPlan() {
-    healthPlan = await healthStore.generateHealthPlan();
-  }
-
-  function updateHealthPlan(planItem: string, value: any) {
-    healthStore.updateHealthPlan(planItem, value);
-  }
-
-  function saveHealthPlan() {
-    healthStore.saveHealthPlan(healthPlan);
-  }
+  // Add any necessary imports and logic here
 </script>
 
 <div class="health-plan-generator">
-  <h2>Personalized Health Plan</h2>
-  
-  <button on:click={generateHealthPlan}>Generate New Plan</button>
-
-  {#if healthPlan}
-    <div class="health-plan">
-      <!-- Display and allow editing of health plan items -->
-    </div>
-    <button on:click={saveHealthPlan}>Save Plan</button>
-  {/if}
+  <h2 class="text-xl font-semibold mb-2 text-gray-800">Health Plan Generator</h2>
+  <p class="text-gray-600">This is a placeholder for the Health Plan Generator component.</p>
+  <!-- Add more content and functionality as needed -->
 </div>
-
-<style>
-  /* Add styles for the health plan generator */
-</style>

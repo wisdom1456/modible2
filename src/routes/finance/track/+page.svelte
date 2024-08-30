@@ -11,14 +11,24 @@
     { href: '/finance/goals', label: 'Financial Goals' },
   ];
 
-  let categories: any[] = [];
+  let categories = [];
 
   onMount(() => {
-    financeStore.subscribe(value => {
-      categories = value.categories;
+    const unsubscribe = financeStore.subscribe(value => {
+      if (value) {
+        categories = value.categories || [];
+      }
     });
+
+    return () => {
+      unsubscribe();
+    };
   });
 </script>
 
-<h1>Track Placeholder</h1>
-<p>This page is under construction.</p>
+<ModuleNavigation items={financeNavItems} />
+
+<div class="p-8 bg-gray-100 min-h-screen">
+  <h1 class="text-3xl font-bold mb-4 text-gray-800">Track</h1>
+  <p>This page is under construction.</p>
+</div>

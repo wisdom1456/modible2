@@ -1,39 +1,37 @@
 import { writable } from "svelte/store";
-import type { Task, Project, CalendarEvent, ScheduleBlock } from "$lib/types";
+import type { Task } from "$lib/types";
+import { browser } from '$app/environment';
 
-const createTaskStore = () => {
-  const { subscribe, set, update } = writable<Task[]>([]);
+function loadTasks(): Task[] {
+  if (browser) {
+    const storedTasks = localStorage.getItem('tasks');
+    return storedTasks ? JSON.parse(storedTasks) : [];
+  }
+  return [];
+}
+
+function saveTasks(tasks: Task[]) {
+  if (browser) {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+}
+
+function createTaskStore() {
+  const { subscribe, set, update } = writable<Task[]>(loadTasks());
 
   return {
     subscribe,
-    set,
-    update,
-    getTasks: async () => {
-      // Fetch tasks from an API or local storage
-      return [];
-    },
-    addTask: (task: Task) => update((tasks) => [...tasks, task]),
-    updateTask: (id: string, updates: Partial<Task>) =>
-      update((tasks) =>
-        tasks.map((task) => (task.id === id ? { ...task, ...updates } : task))
-      ),
-    deleteTask: (id: string) =>
-      update((tasks) => tasks.filter((task) => task.id !== id)),
-    getTask: async (id: string): Promise<Task | null> => {
-      // Fetch single task logic
-      return null;
-    },
-    addSubtask: (taskId: string, subtask: Task) => {
-      // Add subtask logic
-    },
-    deleteSubtask: (taskId: string, subtaskId: string) => {
-      // Delete subtask logic
-    },
-    getTaskSummary: () => {
-      // Implement task summary logic
-      return { pendingTasks: 0 };
-    },
+    addTask: (task: Task) => update(tasks => {
+      const newTasks = [...tasks, task];
+      saveTasks(newTasks);
+      return newTasks;
+    }),
+    updateTask: (id: string, updates: Partial<Task>) => update(tasks =>
+      tasks.map(task => task.id === id ? { ...task, ...updates } : task)
+    ),
+    deleteTask: (id: string) => update(tasks => tasks.filter(task => task.id !== id)),
+    // Add more methods as needed
   };
-};
+}
 
 export const taskStore = createTaskStore();

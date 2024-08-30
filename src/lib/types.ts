@@ -17,7 +17,7 @@ export interface Expense {
 }
 
 export interface Income {
-  id: string;
+  id: string; // Add this line
   date: Date;
   amount: number;
   source: string;
@@ -27,8 +27,30 @@ export interface Income {
 export interface Investment {
   id: string;
   name: string;
-  allocation: number;
   value: number;
+  allocation: number;
+}
+
+export interface FinancialGoal {
+  id: string;
+  name: string;
+  targetAmount: number;
+  currentAmount: number;
+  targetDate: Date;
+}
+
+export interface FinancialSummary {
+  balance: number;
+  totalBalance: number; // Add this property
+  monthlyIncome: number; // Add this property
+  monthlyExpenses: number; // Add this property
+  expenses: Expense[];
+  incomes: Income[];
+  investments: Investment[];
+  goals: FinancialGoal[];
+  categories: BudgetCategory[]; // Add this property
+  dailyExpenses: Expense[]; // Add this property
+  insights: FinancialInsight[]; // Add this property
 }
 
 export interface InvestmentRecommendation {
@@ -50,6 +72,7 @@ export interface Task {
   priority: "low" | "medium" | "high";
   category: string;
   subtasks?: Subtask[];
+  status: string; // Add this property
 }
 
 export interface Subtask {
@@ -143,4 +166,36 @@ export interface KnowledgeSummary {
 export interface BudgetItem {
   name: string;
   amount: number;
+}
+
+export interface UserProfile {
+  name: string;
+  email: string;
+  currency: string;
+}
+
+// Add this interface
+export interface Transaction {
+  description: string;
+  amount: number;
+}
+
+export interface FinancialProfile {
+  name: string;
+  email: string; // Add this field
+  // Add other fields as necessary
+}
+
+export interface FinancialInsight {
+  description: string;
+  value: number | string; // Change to allow both number and string
+}
+
+export interface HealthGoal {
+  title: string;
+  description: string;
+  metric: string;
+  target: number | string;
+  currentValue: number | string;
+  targetDate: Date;
 }

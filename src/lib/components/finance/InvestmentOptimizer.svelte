@@ -4,53 +4,56 @@
   import type { FinancialGoal } from '$lib/types';
 
   let goals: FinancialGoal[] = [];
-  let newGoal: FinancialGoal = { id: '', name: '', amount: 0, deadline: new Date() };
+  let newGoal: FinancialGoal = { id: '', name: '', targetAmount: 0, currentAmount: 0, targetDate: new Date() };
+  let isLoading = true;
+  let error: string | null = null;
 
   onMount(async () => {
-    goals = await financeStore.getFinancialGoals();
+    try {
+      goals = await financeStore.getFinancialGoals();
+    } catch (e) {
+      error = e instanceof Error ? e.message : 'An unknown error occurred';
+    } finally {
+      isLoading = false;
+    }
   });
 
-  function addGoal() {
-    financeStore.addFinancialGoal(newGoal);
-    newGoal = { id: '', name: '', amount: 0, deadline: new Date() };
+  async function addGoal() {
+    try {
+      await financeStore.addFinancialGoal(newGoal);
+      newGoal = { id: '', name: '', targetAmount: 0, currentAmount: 0, targetDate: new Date() };
+      goals = await financeStore.getFinancialGoals();
+    } catch (e) {
+      error = e instanceof Error ? e.message : 'An unknown error occurred';
+    }
   }
 
-  function deleteGoal(id: string) {
-    financeStore.deleteFinancialGoal(id);
+  async function deleteGoal(id: string) {
+    try {
+      await financeStore.deleteFinancialGoal(id);
+      goals = await financeStore.getFinancialGoals();
+    } catch (e) {
+      error = e instanceof Error ? e.message : 'An unknown error occurred';
+    }
   }
 </script>
 
-<div class="card">
+<div class="p-4 bg-white rounded-lg shadow-md">
   <h2 class="text-2xl font-semibold mb-4 text-gray-800">Financial Goal Planner</h2>
-  <div class="goals space-y-4">
+  <ul class="space-y-2">
     {#each goals as goal}
-      <div class="goal-item flex items-center justify-between p-4 bg-gray-100 rounded-lg shadow-sm">
-        <span class="text-lg font-medium text-gray-700">{goal.name}</span>
-        <span class="text-lg font-medium text-gray-700">${goal.amount}</span>
+      <li class="flex justify-between p-2 bg-gray-100 rounded-lg">
+        <span>{goal.name}</span>
+        <span>${goal.targetAmount}</span>
         <button on:click={() => deleteGoal(goal.id)} class="ml-4 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">Delete</button>
-      </div>
+      </li>
     {/each}
-  </div>
-  <div class="form-group mt-4">
-    <label for="name" class="block text-sm font-medium text-gray-700">Goal Name</label>
-    <input id="name" type="text" bind:value={newGoal.name} class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
-  </div>
-  <div class="form-group mt-4">
-    <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
-    <input id="amount" type="number" bind:value={newGoal.amount} class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
-  </div>
-  <div class="form-group mt-4">
-    <label for="deadline" class="block text-sm font-medium text-gray-700">Deadline</label>
-    <input id="deadline" type="date" bind:value={newGoal.deadline} class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
-  </div>
-  <button on:click={addGoal} class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add Goal</button>
+  </ul>
+  <form on:submit|preventDefault={addGoal} class="mt-4 space-y-4">
+    <input id="name" type="text" bind:value={newGoal.name} placeholder="Goal Name" required class="w-full p-2 border border-gray-300 rounded-md" />
+    <input id="targetAmount" type="number" bind:value={newGoal.targetAmount} placeholder="Target Amount" required class="w-full p-2 border border-gray-300 rounded-md" />
+    <input id="currentAmount" type="number" bind:value={newGoal.currentAmount} placeholder="Current Amount" required class="w-full p-2 border border-gray-300 rounded-md" />
+    <input id="targetDate" type="date" bind:value={newGoal.targetDate} required class="w-full p-2 border border-gray-300 rounded-md" />
+    <button type="submit" class="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Add Goal</button>
+  </form>
 </div>
-
-<style>
-  .card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-</style>

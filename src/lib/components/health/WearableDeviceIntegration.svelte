@@ -1,37 +1,9 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { wearableStore, getConnectedDevices, syncDeviceData } from '$lib/stores/wearableStore';
-  import type { WearableDevice } from '$lib/types';
-
-  let connectedDevices: WearableDevice[] = [];
-
-  onMount(async () => {
-    connectedDevices = await getConnectedDevices();
-  });
-
-  async function connectDevice() {
-    // Implement device connection logic
-  }
-
-  async function syncData(deviceId: string) {
-    await syncDeviceData(deviceId);
-  }
+  // Add any necessary imports and logic here
 </script>
 
-<div class="wearable-integration">
-  <h2>Wearable Devices</h2>
-  
-  <button on:click={connectDevice}>Connect New Device</button>
-
-  {#each connectedDevices as device}
-    <div class="device-card">
-      <h3>{device.name}</h3>
-      <p>Status: {device.status}</p>
-      <button on:click={() => syncData(device.id)}>Sync Data</button>
-    </div>
-  {/each}
+<div class="wearable-device-integration">
+  <h2 class="text-xl font-semibold mb-2 text-gray-800">Wearable Device Integration</h2>
+  <p class="text-gray-600">This is a placeholder for the Wearable Device Integration component.</p>
+  <!-- Add more content and functionality as needed -->
 </div>
-
-<style>
-  /* Add styles for the wearable device integration component */
-</style>

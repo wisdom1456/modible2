@@ -1,12 +1,8 @@
 <script lang="ts">
-    import ModuleNavigation from '$lib/components/navigation/ModuleNavigation.svelte';
-    import Health from '$lib/components/health/Health.svelte';
-
-    const healthNavItems = [
-        { href: '/health', label: 'Overview' },
-        { href: '/health/tracker', label: 'Health Tracker' },
-        { href: '/health/goals', label: 'Health Goals' },
-    ];
+    import HolisticHealthTracker from '$lib/components/health/HolisticHealthTracker.svelte';
 </script>
 
-<Health />
+<div class="p-4 bg-white rounded-lg shadow-md">
+    <h1 class="text-2xl font-bold mb-4">Health Overview</h1>
+    <HolisticHealthTracker />
+</div>

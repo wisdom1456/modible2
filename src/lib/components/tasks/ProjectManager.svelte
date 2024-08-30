@@ -4,60 +4,29 @@
   import type { Project } from '$lib/types';
 
   let projects: Project[] = [];
-  let newProject: Project = {
-    id: '',
-    name: '',
-    description: '',
-    tasks: []
-  };
 
   onMount(async () => {
     projects = await taskStore.getProjects();
   });
 
-  function addProject() {
-    taskStore.addProject(newProject);
-    newProject = { id: '', name: '', description: '', tasks: [] };
+  async function updateProject(id: string, field: string, value: any) {
+    await taskStore.updateProject(id, { [field]: value });
+    projects = await taskStore.getProjects();
   }
 
-  function updateProject(id: string, field: string, value: any) {
-    taskStore.updateProject(id, field, value);
-  }
-
-  function deleteProject(id: string) {
-    taskStore.deleteProject(id);
+  async function deleteProject(id: string) {
+    await taskStore.deleteProject(id);
+    projects = await taskStore.getProjects();
   }
 </script>
 
 <div class="p-4 bg-white rounded-lg shadow-md">
-  <h2 class="text-xl font-semibold mb-4 text-gray-700">Project Manager</h2>
-
-  <div class="mb-4">
-    <input bind:value={newProject.name} placeholder="Project name" class="w-full px-3 py-2 border rounded-md mb-2" />
-    <textarea bind:value={newProject.description} placeholder="Description" class="w-full px-3 py-2 border rounded-md mb-2"></textarea>
-    <button on:click={addProject} class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">Add Project</button>
-  </div>
-
-  <div class="space-y-4">
-    {#each projects as project}
-      <div class="bg-gray-100 rounded-lg p-4">
-        <input
-          bind:value={project.name}
-          on:change={() => updateProject(project.id, 'name', project.name)}
-          class="w-full px-3 py-2 border rounded-md mb-2"
-        />
-        <textarea
-          bind:value={project.description}
-          on:change={() => updateProject(project.id, 'description', project.description)}
-          class="w-full px-3 py-2 border rounded-md mb-2"
-        ></textarea>
-        <button on:click={() => deleteProject(project.id)} class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors">Delete</button>
-        <!-- Add task management within project -->
-      </div>
-    {/each}
-  </div>
+  <h2 class="text-2xl font-semibold mb-4 text-gray-800">Project Manager</h2>
+  {#each projects as project}
+    <div class="mb-4 p-4 bg-gray-100 rounded-lg">
+      <h3 class="text-xl font-semibold mb-2">{project.name}</h3>
+      <p class="mb-2">{project.description}</p>
+      <button on:click={() => deleteProject(project.id)} class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">Delete</button>
+    </div>
+  {/each}
 </div>
-
-<style>
-  /* Add styles for the project manager component */
-</style>

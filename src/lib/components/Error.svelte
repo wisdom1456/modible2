@@ -1,15 +1,18 @@
 <script lang="ts">
+  import Layout from './Layout.svelte';
   export let data: any;
   export let form: any;
 </script>
 
-<div class="error">
-  <h1>Error</h1>
-  <p>{data?.message || 'An unknown error occurred.'}</p>
-  {#if form}
-    <pre>{JSON.stringify(form, null, 2)}</pre>
-  {/if}
-</div>
+<Layout title="Error Page">
+  <div class="error">
+    <h1>Error</h1>
+    <p>{data?.message || 'An unknown error occurred.'}</p>
+    {#if form}
+      <pre>{JSON.stringify(form, null, 2)}</pre>
+    {/if}
+  </div>
+</Layout>
 
 <style>
   .error {

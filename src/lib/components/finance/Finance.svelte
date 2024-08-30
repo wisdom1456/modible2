@@ -1,14 +1,43 @@
 <script lang="ts">
-    import FinancialPlanner from './FinancialPlanner.svelte';
-    import BudgetManager from './BudgetManager.svelte';
-    import ExpenseTracker from './ExpenseTracker.svelte';
-    import InvestmentOptimizer from './InvestmentOptimizer.svelte';
-    import FinancialGoalPlanner from './FinancialGoalPlanner.svelte';
+    import SectionNavigation from './SectionNavigation.svelte';
+    import Dashboard from './Dashboard.svelte';
+    import Budget from './Budget.svelte';
+    import Expenses from './Expenses.svelte';
+    import Income from './Income.svelte';
+    import Investments from './Investments.svelte';
+    import Goals from './Goals.svelte';
+    import Profile from './Profile.svelte';
+
+    let currentSection = 'dashboard';
+
+    function changeSection(section: string) {
+        currentSection = section;
+    }
 </script>
 
-<div class="finance-container p-6 bg-gray-100 min-h-screen">
-    <h1 class="text-3xl font-bold mb-6 text-gray-800">Financial Planner</h1>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <FinancialPlanner />
+<div class="p-4 bg-white rounded-lg shadow-md">
+    <SectionNavigation {changeSection} />
+    <div class="finance-content mt-4">
+        {#if currentSection === 'dashboard'}
+            <Dashboard />
+        {:else if currentSection === 'budget'}
+            <Budget />
+        {:else if currentSection === 'expenses'}
+            <Expenses />
+        {:else if currentSection === 'income'}
+            <Income />
+        {:else if currentSection === 'investments'}
+            <Investments />
+        {:else if currentSection === 'goals'}
+            <Goals />
+        {:else if currentSection === 'profile'}
+            <Profile />
+        {/if}
     </div>
 </div>
+
+<style>
+    .finance-content {
+        padding: 1rem;
+    }
+</style>

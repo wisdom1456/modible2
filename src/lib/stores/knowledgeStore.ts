@@ -76,6 +76,13 @@ export const knowledgeStore = {
   deleteSkill: (id: string) => {
     // Delete skill logic
   },
+  getResources: async (): Promise<LearningResource[]> => {
+    // Fetch resources from an API or database
+    return [];
+  },
+  addResource: async (resource: LearningResource): Promise<void> => {
+    // Add a new resource to an API or database
+  }
 };
 
 export function getKnowledgeSummary() {

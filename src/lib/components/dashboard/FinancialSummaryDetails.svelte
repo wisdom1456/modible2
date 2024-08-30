@@ -1,11 +1,13 @@
 <script lang="ts">
+  import type { BudgetCategory, Expense, Income, Investment, InvestmentRecommendation } from '$lib/types';
+
   export let financialSummary: {
     monthlyExpenses: number;
-    budget: { categories: any[] };
-    expenses: any[];
-    incomes: any[];
-    investments: any[];
-    investmentRecommendations: any[];
+    budget: { categories: BudgetCategory[] };
+    expenses: Expense[];
+    incomes: Income[];
+    investments: Investment[];
+    investmentRecommendations: InvestmentRecommendation[];
   };
 </script>
 

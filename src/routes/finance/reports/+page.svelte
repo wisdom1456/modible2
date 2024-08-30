@@ -11,16 +11,35 @@
     { href: '/finance/goals', label: 'Financial Goals' },
   ];
 
-  let goals: any[] = [];
-  let dailyExpenses: any[] = [];
+  let goals = [];
+  let dailyExpenses = [];
 
   onMount(() => {
-    financeStore.subscribe(value => {
-      goals = value.goals;
-      dailyExpenses = value.dailyExpenses;
+    const unsubscribe = financeStore.subscribe(value => {
+      if (value) {
+        goals = value.goals;
+        dailyExpenses = value.dailyExpenses || [];
+      }
     });
+
+    return () => {
+      unsubscribe();
+    };
   });
 </script>
 
-<h1>Reports Placeholder</h1>
-<p>This page is under construction.</p>
+<ModuleNavigation items={financeNavItems} />
+
+<div class="p-4 bg-white rounded-lg shadow-md">
+  <h1 class="text-3xl font-bold mb-4 text-gray-800">Reports</h1>
+  <p>This page is under construction.</p>
+</div>
+
+<style>
+  /* Remove this if it's not used */
+  /*
+  .reports-container {
+    // Your styles here
+  }
+  */
+</style>

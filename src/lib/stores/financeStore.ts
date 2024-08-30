@@ -1,99 +1,80 @@
-import { writable } from "svelte/store";
-import type {
-  BudgetCategory,
-  Expense,
-  Income,
-  Investment,
-  InvestmentRecommendation,
-  FinancialGoal
-} from "$lib/types";
+import { writable } from 'svelte/store';
+import type { FinancialSummary, BudgetCategory, Expense, FinancialGoal, Income, Investment, Transaction, UserProfile, FinancialInsight, FinancialProfile } from '$lib/types';
 
-interface FinanceStore {
-  balance: number;
-  categories: BudgetCategory[];
-  expenses: Expense[];
-  incomes: Income[];
-  investments: Investment[];
-  goals: FinancialGoal[];
-}
+const financialSummary = writable<FinancialSummary | null>(null);
 
-const createFinanceStore = () => {
-  const { subscribe, update } = writable<FinanceStore>({
-    balance: 0,
-    categories: [],
-    expenses: [],
-    incomes: [],
-    investments: [],
-    goals: []
-  });
-
-  return {
-    subscribe,
-    addExpense: (expense: Expense) => update(store => {
-      store.expenses = [...store.expenses, expense];
-      return store;
-    }),
-    deleteExpense: (id: string) => update(store => {
-      store.expenses = store.expenses.filter(e => e.id !== id);
-      return store;
-    }),
-    addIncome: (income: Income) => update(store => {
-      store.incomes = [...store.incomes, income];
-      return store;
-    }),
-    deleteIncome: (id: string) => update(store => {
-      store.incomes = store.incomes.filter(i => i.id !== id);
-      return store;
-    }),
-    getFinancialSummary: async () => {
-      // Stub implementation
-      return {
-        balance: 0,
-        categories: [],
-        expenses: [],
-        incomes: [],
-        investments: [],
-        goals: []
-      };
-    },
-    getBudget: async () => {
-      // Stub implementation
-      return {
-        categories: []
-      };
-    },
-    addBudgetCategory: (category: BudgetCategory) => update(store => {
-      store.categories = [...store.categories, category];
-      return store;
-    }),
-    getExpenses: async () => {
-      // Stub implementation
-      return [];
-    },
-    getIncomes: async () => {
-      // Stub implementation
-      return [];
-    },
-    getInvestments: async () => {
-      // Stub implementation
-      return [];
-    },
-    getFinancialGoals: async () => {
-      // Stub implementation
-      return [];
-    },
-    addFinancialGoal: (goal: FinancialGoal) => update(store => {
-      store.goals = [...store.goals, goal];
-      return store;
-    }),
-    deleteFinancialGoal: (id: string) => update(store => {
-      store.goals = store.goals.filter(g => g.id !== id);
-      return store;
-    })
-  };
+export const financeStore = {
+  subscribe: financialSummary.subscribe,
+  getBudgetCategories: async (): Promise<BudgetCategory[]> => {
+    // Fetch budget categories from an API or database
+    return [];
+  },
+  addBudgetCategory: async (category: BudgetCategory): Promise<void> => {
+    // Add a new budget category to an API or database
+  },
+  getExpenses: async (): Promise<Expense[]> => {
+    // Fetch expenses from an API or database
+    return [];
+  },
+  addExpense: async (expense: Expense): Promise<void> => {
+    // Add a new expense to an API or database
+  },
+  getGoals: async (): Promise<FinancialGoal[]> => {
+    // Fetch financial goals from an API or database
+    return [];
+  },
+  getCharts: async (): Promise<any[]> => {
+    // Fetch charts data
+    return [];
+  },
+  getFinancialInsights: async (): Promise<FinancialInsight[]> => {
+    // Fetch financial insights
+    return [];
+  },
+  getFinancialProfile: async (): Promise<FinancialProfile | null> => {
+    // Fetch financial profile
+    return null;
+  },
+  updateFinancialProfile: async (profile: FinancialProfile): Promise<void> => {
+    // Update financial profile
+  },
+  getFinancialSummary: async (): Promise<FinancialSummary> => {
+    // Fetch financial summary
+    return { totalBalance: 0, monthlyIncome: 0, monthlyExpenses: 0 };
+  },
+  getTransactions: async (section: string): Promise<Transaction[]> => {
+    // Fetch transactions based on the section
+    return [];
+  },
+  addGoal: async (goal: FinancialGoal): Promise<void> => {
+    // Add a new financial goal
+  },
+  getIncomes: async (): Promise<Income[]> => {
+    // Fetch incomes
+    return [];
+  },
+  addIncome: async (income: Income): Promise<void> => {
+    // Add a new income
+  },
+  getFinancialGoals: async (): Promise<FinancialGoal[]> => {
+    // Fetch financial goals
+    return [];
+  },
+  addFinancialGoal: async (goal: FinancialGoal): Promise<void> => {
+    // Add a new financial goal
+  },
+  deleteFinancialGoal: async (id: string): Promise<void> => {
+    // Delete a financial goal
+  },
+  getInvestments: async (): Promise<Investment[]> => {
+    // Fetch investments
+    return [];
+  },
+  addInvestment: async (investment: Investment): Promise<void> => {
+    // Add a new investment
+  },
+  getBudget: async (): Promise<BudgetCategory[]> => {
+    // Fetch budget
+    return [];
+  },
 };
-
-export const financeStore = createFinanceStore();
-export const investmentsStore = writable<Investment[]>([]);
-export const recommendationsStore = writable<InvestmentRecommendation[]>([]);
-export const fetchFinancialSummary = financeStore.getFinancialSummary;

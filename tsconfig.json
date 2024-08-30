@@ -1,9 +1,17 @@
 {
   "extends": "./.svelte-kit/tsconfig.json",
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "$lib/*": ["src/lib/*"]
+    },
+    "verbatimModuleSyntax": true,
+    "ignoreDeprecations": "5.0",
     "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "public"]
+  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte"],
+  "exclude": ["node_modules/*", "__sapper__/*", "public/*"]
 }

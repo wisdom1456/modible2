@@ -18,6 +18,10 @@
   }
 </script>
 
+<style>
+  /* Tailwind classes will handle the styling */
+</style>
+
 <div class="ai-insights">
   {#each insights as insight}
     <div class="insight">
@@ -33,17 +37,3 @@
     </div>
   {/each}
 </div>
-
-<style>
-  .ai-insights {
-    display: flex;
-    flex-direction: column;
-  }
-  .insight {
-    margin-bottom: 1rem;
-  }
-  .insight-actions, .feedback {
-    display: flex;
-    gap: 0.5rem;
-  }
-</style>

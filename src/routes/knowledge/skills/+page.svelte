@@ -1,5 +1,6 @@
 <script lang="ts">
   import ModuleNavigation from '$lib/components/navigation/ModuleNavigation.svelte';
+  import KnowledgeDashboard from '$lib/components/knowledge/KnowledgeDashboard.svelte';
 
   const knowledgeNavItems = [
     { href: '/knowledge', label: 'Overview' },
@@ -13,3 +14,5 @@
 <ModuleNavigation module="Knowledge" items={knowledgeNavItems} />
 <h1>Skills Placeholder</h1>
 <p>This page is under construction.</p>
+
+<KnowledgeDashboard />

@@ -1,48 +1,34 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { healthStore } from '$lib/stores/healthStore';
-  import type { PhysicalHealthData } from '$lib/types';
+  let physicalHealthData = null;
+  let isLoading = false;
+  let error = null;
 
-  let physicalHealth: PhysicalHealthData;
-
-  onMount(async () => {
-    physicalHealth = await healthStore.getPhysicalHealthData();
-  });
-
-  function updatePhysicalHealth(metric: string, value: number) {
-    healthStore.updatePhysicalHealth(metric, value);
+  async function loadPhysicalHealthData() {
+    isLoading = true;
+    error = null;
+    try {
+      // Implement logic to load physical health data
+      physicalHealthData = { /* mock data */ };
+    } catch (e) {
+      error = e.message;
+    } finally {
+      isLoading = false;
+    }
   }
 
-  function setPhysicalHealthGoal(metric: string, target: number) {
-    healthStore.setPhysicalHealthGoal(metric, target);
-  }
+  loadPhysicalHealthData();
 </script>
 
-<div class="physical-health-tracker">
-  <h2>Physical Health</h2>
-  
-  <div class="metric-input">
-    <label for="weight">Weight (kg)</label>
-    <input
-      type="number"
-      id="weight"
-      bind:value={physicalHealth.weight}
-      on:change={() => updatePhysicalHealth('weight', physicalHealth.weight)}
-    />
-  </div>
-  
-  <!-- Add more metric inputs (e.g., steps, exercise minutes) -->
-
-  <div class="health-goals">
-    <h3>Goals</h3>
-    <!-- Add goal-setting inputs -->
-  </div>
-
-  <div class="health-charts">
-    <!-- Add charts for physical health metrics -->
-  </div>
+<div class="physical-health-tracker p-4 bg-white rounded-lg shadow-md" role="region" aria-labelledby="physical-health-heading">
+  <h2 id="physical-health-heading" class="text-xl font-semibold mb-2 text-gray-800">Physical Health Tracker</h2>
+  {#if isLoading}
+    <p class="text-gray-600">Loading physical health data...</p>
+  {:else if error}
+    <p class="text-red-500" role="alert">Error: {error}</p>
+  {:else if physicalHealthData}
+    <!-- Display physical health data here -->
+    <p class="text-gray-600">Physical health data loaded successfully.</p>
+  {:else}
+    <p class="text-gray-600">No physical health data available.</p>
+  {/if}
 </div>
-
-<style>
-  /* Add styles for the physical health tracker */
-</style>

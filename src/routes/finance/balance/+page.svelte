@@ -11,14 +11,25 @@
     { href: '/finance/goals', label: 'Financial Goals' },
   ];
 
-  let balance: any[] = [];
+  let balance = 0;
 
   onMount(() => {
-    financeStore.subscribe(value => {
-      balance = value.balance;
+    const unsubscribe = financeStore.subscribe(value => {
+      if (value) {
+        balance = value.balance;
+      }
     });
+
+    return () => {
+      unsubscribe();
+    };
   });
 </script>
 
-<h1>Balance Placeholder</h1>
-<p>This page is under construction.</p>
+<ModuleNavigation items={financeNavItems} />
+
+<div class="p-4 bg-white rounded-lg shadow-md">
+  <h1 class="text-3xl font-bold mb-4 text-gray-800">Balance</h1>
+  <p class="text-lg">Your current balance is: <span class="font-semibold">${balance}</span></p>
+  <p class="text-lg">This page will provide detailed insights into your financial balance, including recent transactions, income, and expenses.</p>
+</div>

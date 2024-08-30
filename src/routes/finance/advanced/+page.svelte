@@ -11,14 +11,33 @@
     { href: '/finance/goals', label: 'Financial Goals' },
   ];
 
-  let categories: any[] = [];
+  let categories = [];
 
   onMount(() => {
-    financeStore.subscribe(value => {
-      categories = value.categories;
+    const unsubscribe = financeStore.subscribe(value => {
+      if (value) {
+        categories = value.categories;
+      }
     });
+
+    return () => {
+      unsubscribe();
+    };
   });
 </script>
 
-<h1>Advanced Finance Placeholder</h1>
-<p>This page is under construction.</p>
+<ModuleNavigation items={financeNavItems} />
+
+<div class="p-4 bg-white rounded-lg shadow-md">
+  <h1 class="text-3xl font-bold mb-4 text-gray-800">Advanced Finance</h1>
+  <p>This page is under construction.</p>
+</div>
+
+<style>
+  /* Remove this if it's not used */
+  /*
+  .advanced-container {
+    // Your styles here
+  }
+  */
+</style>

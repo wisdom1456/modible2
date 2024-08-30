@@ -1,34 +1,40 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { taskStore } from '$lib/stores/taskStore';
-  import type { Task } from '$lib/types';
+  let tasks = [];
+  let isLoading = false;
+  let error = null;
 
-  let tasks: Task[] = [];
-  let newTask: Task = { id: '', title: '', description: '', dueDate: null, priority: 'medium', category: '' };
-
-  onMount(async () => {
-    tasks = await taskStore.getTasks();
-  });
-
-  function addTask() {
-    taskStore.addTask(newTask);
-    newTask = { id: '', title: '', description: '', dueDate: null, priority: 'medium', category: '' };
+  async function loadTasks() {
+    isLoading = true;
+    error = null;
+    try {
+      // Implement logic to load tasks
+      tasks = [ /* mock data */ ];
+    } catch (e) {
+      error = e.message;
+    } finally {
+      isLoading = false;
+    }
   }
 
-  function deleteTask(id: string) {
-    taskStore.deleteTask(id);
-  }
+  loadTasks();
 </script>
 
-<div class="p-4 bg-white rounded-lg shadow-md" role="region" aria-labelledby="task-list-heading">
-  <h2 id="task-list-heading" class="text-xl font-semibold mb-4 text-gray-700">Tasks</h2>
-  <div class="space-y-4">
-    {#each tasks as task}
-      <div class="bg-gray-100 rounded-lg p-4">
-        <h3 class="text-lg font-semibold text-gray-700">{task.title}</h3>
-        <p class="text-gray-600 mt-2">{task.description}</p>
-        <button on:click={() => deleteTask(task.id)} class="mt-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition-colors">Delete</button>
-      </div>
-    {/each}
-  </div>
+<div class="task-list p-4 bg-white rounded-lg shadow-md" role="region" aria-labelledby="task-list-heading">
+  <h2 id="task-list-heading" class="text-2xl font-bold mb-4 text-gray-800">Task List</h2>
+  {#if isLoading}
+    <p class="text-gray-600">Loading tasks...</p>
+  {:else if error}
+    <p class="text-red-500" role="alert">Error: {error}</p>
+  {:else if tasks.length > 0}
+    <ul class="space-y-2">
+      {#each tasks as task}
+        <li class="bg-gray-100 p-4 rounded-lg">
+          <h3 class="text-lg font-semibold text-gray-800">{task.title}</h3>
+          <p class="text-gray-600">{task.description}</p>
+        </li>
+      {/each}
+    </ul>
+  {:else}
+    <p class="text-gray-600">No tasks found.</p>
+  {/if}
 </div>

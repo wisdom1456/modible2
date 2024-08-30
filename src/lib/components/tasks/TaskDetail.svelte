@@ -4,39 +4,37 @@
   import type { Task, Subtask } from '$lib/types';
 
   export let taskId: string;
+
   let task: Task | null = null;
+  let subtasks: Subtask[] = [];
 
   onMount(async () => {
     task = await taskStore.getTask(taskId);
+    subtasks = await taskStore.getSubtasks(taskId);
   });
 
-  function updateTask(updates: Partial<Task>) {
-    if (task) {
-      taskStore.updateTask(taskId, updates);
-    }
-  }
-
-  function addSubtask(subtaskTitle: string) {
-    if (task) {
-      const newSubtask: Subtask = { id: Date.now().toString(), title: subtaskTitle, completed: false };
-      taskStore.addSubtask(taskId, newSubtask as unknown as Task); // Cast to Task
-    }
-  }
-
-  function deleteSubtask(subtaskId: string) {
-    if (task) {
-      taskStore.deleteSubtask(taskId, subtaskId);
-    }
-  }
-
-  function completeSubtask(subtask: Subtask) {
-    if (task && task.subtasks) {
-      updateTask({ subtasks: task.subtasks.map(s => s.id === subtask.id ? { ...s, completed: true } : s) });
-    }
+  async function toggleSubtask(subtaskId: string) {
+    await taskStore.toggleSubtask(taskId, subtaskId);
+    subtasks = await taskStore.getSubtasks(taskId);
   }
 </script>
 
-<div class="p-4 bg-white rounded-lg shadow-md" role="region" aria-labelledby="task-detail-heading">
-  <h2 id="task-detail-heading" class="text-xl font-semibold mb-4 text-gray-700">Task Detail</h2>
-  <!-- Add your task detail content here -->
+<div class="task-detail p-4 bg-white rounded-lg shadow-md">
+  {#if task}
+    <h2 class="text-2xl font-bold mb-4">{task.title}</h2>
+    <p class="mb-4">{task.description}</p>
+    <p class="mb-4">Due: {task.dueDate ? task.dueDate.toLocaleDateString() : 'No due date'}</p>
+    <p class="mb-4">Priority: {task.priority}</p>
+    <h3 class="text-xl font-semibold mb-2">Subtasks</h3>
+    <ul class="space-y-2">
+      {#each subtasks as subtask}
+        <li class="flex items-center">
+          <input type="checkbox" checked={subtask.completed} on:change={() => toggleSubtask(subtask.id)} class="mr-2" />
+          <span class:line-through={subtask.completed}>{subtask.title}</span>
+        </li>
+      {/each}
+    </ul>
+  {:else}
+    <p>Loading task...</p>
+  {/if}
 </div>

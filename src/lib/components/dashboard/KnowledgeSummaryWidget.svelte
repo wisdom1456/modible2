@@ -13,12 +13,12 @@
   $: knowledgeSummary = $knowledgeStore;
 </script>
 
+<style>
+  /* Tailwind classes will handle the styling */
+</style>
+
 <div class="p-4 bg-white rounded-lg shadow-md">
   <h2 class="text-xl font-semibold mb-4 text-gray-700">Knowledge Summary</h2>
   <p class="text-lg text-gray-600">Completed Courses: <span class="text-purple-600">{knowledgeSummary.completedCourses}</span></p>
   <!-- Add more knowledge summary details -->
 </div>
-
-<style>
-  /* Add styles for the knowledge summary widget */
-</style>

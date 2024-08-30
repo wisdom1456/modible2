@@ -1,47 +1,55 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { financeStore } from '$lib/stores/financeStore';
-  import type { Budget, BudgetCategory } from '$lib/types';
+  import type { Expense } from '$lib/types';
 
-  let budget: Budget = { categories: [] };
-  let newCategory: BudgetCategory = { id: '', name: '', amount: 0 };
+  let expenses: Expense[] = [];
+  let newExpense: Expense = { id: '', date: new Date(), amount: 0, category: '', description: '' };
+  let isLoading = true;
+  let error: string | null = null;
 
   onMount(async () => {
-    budget = await financeStore.getBudget();
+    try {
+      expenses = await financeStore.getExpenses();
+    } catch (e) {
+      error = e instanceof Error ? e.message : 'An unknown error occurred';
+    } finally {
+      isLoading = false;
+    }
   });
 
-  function addCategory() {
-    financeStore.addBudgetCategory(newCategory);
-    newCategory = { id: '', name: '', amount: 0 };
+  async function addExpense() {
+    try {
+      await financeStore.addExpense(newExpense);
+      newExpense = { id: '', date: new Date(), amount: 0, category: '', description: '' };
+      expenses = await financeStore.getExpenses();
+    } catch (e) {
+      error = e instanceof Error ? e.message : 'An unknown error occurred';
+    }
   }
 </script>
 
-<div class="card">
-  <h2 class="text-2xl font-semibold mb-4 text-gray-800">Budget Manager</h2>
-  <div class="categories space-y-4">
-    {#each budget.categories as category}
-      <div class="category flex items-center justify-between p-4 bg-gray-100 rounded-lg shadow-sm">
-        <span class="text-lg font-medium text-gray-700">{category.name}</span>
-        <span class="text-lg font-medium text-gray-700">${category.amount}</span>
-      </div>
-    {/each}
-  </div>
-  <div class="form-group mt-4">
-    <label for="name" class="block text-sm font-medium text-gray-700">Category Name</label>
-    <input id="name" type="text" bind:value={newCategory.name} class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
-  </div>
-  <div class="form-group mt-4">
-    <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
-    <input id="amount" type="number" bind:value={newCategory.amount} class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
-  </div>
-  <button on:click={addCategory} class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add Category</button>
+<div class="p-4 bg-white rounded-lg shadow-md">
+  <h2 class="text-2xl font-semibold mb-4 text-gray-800">Expense Tracker</h2>
+  {#if isLoading}
+    <p>Loading expenses...</p>
+  {:else if error}
+    <p class="error text-red-500">Error: {error}</p>
+  {:else}
+    <ul class="space-y-2">
+      {#each expenses as expense}
+        <li class="flex justify-between p-2 bg-gray-100 rounded-lg">
+          <span>{expense.description}</span>
+          <span>${expense.amount}</span>
+        </li>
+      {/each}
+    </ul>
+    <form on:submit|preventDefault={addExpense} class="mt-4 space-y-4">
+      <input type="date" bind:value={newExpense.date} required class="w-full p-2 border border-gray-300 rounded-md" />
+      <input type="number" bind:value={newExpense.amount} placeholder="Amount" required class="w-full p-2 border border-gray-300 rounded-md" />
+      <input bind:value={newExpense.category} placeholder="Category" required class="w-full p-2 border border-gray-300 rounded-md" />
+      <input bind:value={newExpense.description} placeholder="Description" required class="w-full p-2 border border-gray-300 rounded-md" />
+      <button type="submit" class="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Add Expense</button>
+    </form>
+  {/if}
 </div>
-
-<style>
-  .card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-</style>
