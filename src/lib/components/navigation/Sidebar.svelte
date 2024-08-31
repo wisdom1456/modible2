@@ -1,109 +1,93 @@
 <script lang="ts">
-  import { page } from '$app/stores';
-  import { writable } from 'svelte/store';
-  import type { FinancialSummary } from '$lib/types';
-
-  const menuItems = [
-    { href: '/', label: 'Dashboard' },
-    { href: '/health', label: 'Health' },
-    { href: '/finance', label: 'Finance' },
-    { href: '/tasks', label: 'Tasks' },
-    { href: '/knowledge', label: 'Knowledge' },
-  ];
-
-  let activeSection = writable('overview');
-  let financialSummary: FinancialSummary | null = null;
-
-  $: currentModule = $page.url.pathname.split('/')[1] || 'dashboard';
-
-  $: secondaryNavSections = getSecondaryNavSections(currentModule);
-
-  function getSecondaryNavSections(module: string) {
-    switch (module) {
-      case 'dashboard':
-        return [
-          { name: 'Overview', key: 'overview' },
-          { name: 'Analytics', key: 'analytics' },
-        ];
-      case 'health':
-        return [
-          { name: 'Overview', key: 'overview' },
-          { name: 'Physical Health', key: 'physical' },
-          { name: 'Mental Health', key: 'mental' },
-          { name: 'Emotional Health', key: 'emotional' },
-          { name: 'Wearable Devices', key: 'wearables' },
-          { name: 'Health Plan', key: 'plan' },
-          { name: 'Health Predictions', key: 'predictions' },
-          { name: 'Data Visualization', key: 'visualization' },
-        ];
-      case 'finance':
-        return [
-          { name: 'Dashboard', key: 'dashboard' },
-          { name: 'Budget', key: 'budget' },
-          { name: 'Expenses', key: 'expenses' },
-          { name: 'Income', key: 'income' },
-          { name: 'Investments', key: 'investments' },
-          { name: 'Goals', key: 'goals' },
-        ];
-      case 'tasks':
-        return [
-          { name: 'Overview', key: 'overview' },
-          { name: 'List', key: 'list' },
-          { name: 'Calendar', key: 'calendar' },
-        ];
-      case 'knowledge':
-        return [
-          { name: 'Overview', key: 'overview' },
-          { name: 'Library', key: 'library' },
-          { name: 'Courses', key: 'courses' },
-          { name: 'Skills', key: 'skills' },
-          { name: 'Learning Goals', key: 'goals' },
-        ];
-      default:
-        return [];
-    }
-  }
-
-  function changeSection(section: string) {
-    activeSection.set(section);
-  }
+  export let items: { href: string; label: string }[];
 </script>
 
-<nav class="bg-gray-900 text-gray-300 h-full w-64 overflow-y-auto">
-  <div class="p-4">
-    <h2 class="text-2xl font-bold mb-4 text-white">Modible</h2>
-    <ul>
-      {#each menuItems as item}
-        <li class="mb-2">
-          <a
-            href={item.href}
-            class="block py-2 px-4 rounded hover:bg-gray-800 hover:text-white transition-colors duration-200"
-            class:bg-gray-800={$page.url.pathname === item.href}
-            class:text-white={$page.url.pathname === item.href}
-          >
-            {item.label}
-          </a>
-        </li>
-      {/each}
-    </ul>
-  </div>
-  {#if secondaryNavSections.length > 0}
-    <div class="mt-4 px-4">
-      <h3 class="text-lg font-semibold mb-2 text-white">{currentModule.charAt(0).toUpperCase() + currentModule.slice(1)}</h3>
-      <ul>
-        {#each secondaryNavSections as section}
-          <li class="mb-2">
+<nav class="flex flex-1 flex-col">
+  <ul role="list" class="flex flex-1 flex-col gap-y-7">
+    <li>
+      <ul role="list" class="-mx-2 space-y-1">
+        {#each items as item}
+          <li>
+            <!-- Current: "bg-gray-800 text-white", Default: "text-gray-400 hover:text-white hover:bg-gray-800" -->
             <a
-              href={`/${currentModule}/${section.key === 'overview' ? '' : section.key}`}
-              class="block py-1 px-4 rounded hover:bg-gray-800 hover:text-white transition-colors duration-200"
-              class:bg-gray-800={$page.url.pathname === `/${currentModule}/${section.key === 'overview' ? '' : section.key}`}
-              class:text-white={$page.url.pathname === `/${currentModule}/${section.key === 'overview' ? '' : section.key}`}
+              href={item.href}
+              class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
             >
-              {section.name}
+              <svg
+                class="h-6 w-6 shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"
+                />
+              </svg>
+              {item.label}
             </a>
           </li>
         {/each}
       </ul>
-    </div>
-  {/if}
+    </li>
+    <li>
+      <div class="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
+      <ul role="list" class="-mx-2 mt-2 space-y-1">
+        <li>
+          <!-- Current: "bg-gray-800 text-white", Default: "text-gray-400 hover:text-white hover:bg-gray-800" -->
+          <a
+            href="#"
+            class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
+          >
+            <span
+              class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white"
+              >P</span
+            >
+            <span class="truncate">Planetaria</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
+          >
+            <span
+              class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white"
+              >P</span
+            >
+            <span class="truncate">Protocol</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
+          >
+            <span
+              class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white"
+              >T</span
+            >
+            <span class="truncate">Tailwind Labs</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="-mx-6 mt-auto">
+      <a
+        href="#"
+        class="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-gray-800"
+      >
+        <img
+          class="h-8 w-8 rounded-full bg-gray-800"
+          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+          alt=""
+        />
+        <span class="sr-only">Your profile</span>
+        <span aria-hidden="true">Tom Cook</span>
+      </a>
+    </li>
+  </ul>
 </nav>

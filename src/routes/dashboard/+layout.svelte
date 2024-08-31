@@ -1,5 +1,5 @@
 <script lang="ts">
-  import SecondaryNavigation from "$lib/components/navigation/SecondaryNavigation.svelte";
+  import Navigation from '$lib/components/navigation/Navigation.svelte';
 
   const financeNavItems = [
     { href: '/finance', label: 'Overview' },
@@ -9,7 +9,7 @@
     { href: '/finance/investments', label: 'Investments' },
     { href: '/finance/goals', label: 'Financial Goals' },
   ];
+
 </script>
 
-<SecondaryNavigation sections={financeNavItems.map(item => ({ name: item.label, key: item.href }))} module="Finance" />
 <slot />

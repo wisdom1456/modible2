@@ -1,5 +1,5 @@
 <script lang="ts">
-  import ModuleNavigation from '$lib/components/navigation/ModuleNavigation.svelte';
+  import ModuleNavigation from '$lib/components/navigation/Unused/ModuleNavigation.svelte';
   import { onMount } from 'svelte';
   import { financeStore } from '$lib/stores/financeStore';
 

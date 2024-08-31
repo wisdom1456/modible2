@@ -1,21 +1,155 @@
 <script lang="ts">
-  import { page } from '$app/stores';
+  import { page } from "$app/stores";
+  import Sidebar from "./Sidebar.svelte";
   
-  export let items: { href: string; label: string }[];
+  const mainNavItems = [
+    { href: "/dashboard", label: "Dashboard" },
+    { href: "/health", label: "Health" },
+    { href: "/finance", label: "Finance" },
+    { href: "/tasks", label: "Tasks" },
+    { href: "/knowledge", label: "Knowledge" },
+  ];
+
   export let module: string | undefined = undefined;
 </script>
 
-<nav class="flex justify-center p-4 bg-gray-800 rounded-md">
-  {#if module}
-    <span class="text-white mr-4">{module}</span>
-  {/if}
-  {#each items as item}
-    <a
-      href={item.href}
-      class="mx-2 px-4 py-2 text-white rounded-md hover:bg-gray-700 transition-colors duration-200"
-      class:bg-gray-700={$page.url.pathname === item.href}
-    >
-      {item.label}
-    </a>
-  {/each}
-</nav>
+<div class="flex h-screen">
+  <div>
+    <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
+    <div class="relative z-50 xl:hidden" role="dialog" aria-modal="true">
+      <!--
+      Off-canvas menu backdrop, show/hide based on off-canvas menu state.
+
+      Entering: "transition-opacity ease-linear duration-300"
+        From: "opacity-0"
+        To: "opacity-100"
+      Leaving: "transition-opacity ease-linear duration-300"
+        From: "opacity-100"
+        To: "opacity-0"
+    -->
+      <div class="fixed inset-0 bg-gray-900/80" aria-hidden="true"></div>
+
+      <div class="fixed inset-0 flex">
+        <!--
+        Off-canvas menu, show/hide based on off-canvas menu state.
+
+        Entering: "transition ease-in-out duration-300 transform"
+          From: "-translate-x-full"
+          To: "translate-x-0"
+        Leaving: "transition ease-in-out duration-300 transform"
+          From: "translate-x-0"
+          To: "-translate-x-full"
+      -->
+        <div class="relative mr-16 flex w-full max-w-xs flex-1">
+          <!--
+          Close button, show/hide based on off-canvas menu state.
+
+          Entering: "ease-in-out duration-300"
+            From: "opacity-0"
+            To: "opacity-100"
+          Leaving: "ease-in-out duration-300"
+            From: "opacity-100"
+            To: "opacity-0"
+        -->
+          <div class="absolute left-full top-0 flex w-16 justify-center pt-5">
+            <button type="button" class="-m-2.5 p-2.5">
+              <span class="sr-only">Close sidebar</span>
+              <svg
+                class="h-6 w-6 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Sidebar component, swap this element with another sidebar if you like -->
+          <div
+            class="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 ring-1 ring-white/10"
+          >
+            <div class="flex h-16 shrink-0 items-center">
+              <img
+                class="h-8 w-auto"
+                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                alt="Your Company"
+              />
+            </div>
+            <Sidebar items={mainNavItems} />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Static sidebar for desktop -->
+    <div class="hidden xl:fixed xl:inset-y-0 xl:z-50 xl:flex xl:w-72 xl:flex-col">
+      <!-- Sidebar component, swap this element with another sidebar if you like -->
+      <div
+        class="flex grow flex-col gap-y-5 overflow-y-auto bg-black/10 px-6 ring-1 ring-white/5"
+      >
+        <div class="flex h-16 shrink-0 items-center">
+          <img
+            class="h-8 w-auto"
+            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+            alt="Your Company"
+          />Modible
+        </div>
+        <Sidebar items={mainNavItems}  />
+      </div>
+    </div>
+
+    <div class="xl:pl-72">
+      <!-- Sticky search header -->
+      <div
+        class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-6 border-b border-white/5 bg-gray-900 px-4 shadow-sm sm:px-6 lg:px-8"
+      >
+        <button type="button" class="-m-2.5 p-2.5 text-white xl:hidden">
+          <span class="sr-only">Open sidebar</span>
+          <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path
+              fill-rule="evenodd"
+              d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10zm0 5.25a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+
+        <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
+          <form class="flex flex-1" action="#" method="GET">
+            <label for="search-field" class="sr-only">Search</label>
+            <div class="relative w-full">
+              <svg
+                class="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-500"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <input
+                id="search-field"
+                class="block h-full w-full border-0 bg-transparent py-0 pl-8 pr-0 text-white focus:ring-0 sm:text-sm"
+                placeholder="Search..."
+                type="search"
+                name="search"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex-1 flex flex-col xl:pl-72">
+      <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+        <slot />
+      </main>
+    </div>
+  </div>
+</div>
