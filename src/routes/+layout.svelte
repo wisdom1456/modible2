@@ -2,12 +2,14 @@
   import "../app.css";
   import { page } from "$app/stores";
   import Navigation from "$lib/components/navigation/Navigation.svelte";
+  import { userSettings } from '$lib/stores/userSettings';
 </script>
 
-<div class="flex h-screen bg-gray-900">
+<div class={$userSettings.theme}>
   <Navigation>
     <main>
       <slot />
     </main>
   </Navigation>
 </div>
+

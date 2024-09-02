@@ -3,7 +3,7 @@
   export let value: string | number;
 </script>
 
-<div class="rounded-lg bg-gray-800 p-4">
-  <p class="text-sm font-medium text-gray-400">{label}</p>
-  <p class="mt-2 text-3xl font-semibold text-white">{value}</p>
+<div class="bg-primary p-4 rounded-lg shadow">
+  <h3 class="text-sm font-medium text-secondary">{label}</h3>
+  <p class="mt-2 text-3xl font-semibold text-primary">{value}</p>
 </div>

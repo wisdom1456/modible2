@@ -1,17 +1,21 @@
 <script lang="ts">
   export let items: { href: string; label: string }[];
+  import { userSettings } from '$lib/stores/userSettings';
+  import { onMount } from 'svelte';
+  onMount(() => {
+    userSettings.loadFromStorage();
+  });
 </script>
 
 <nav class="flex flex-1 flex-col">
-  <ul role="list" class="flex flex-1 flex-col gap-y-7">
+  <ul class="flex flex-1 flex-col gap-y-7">
     <li>
-      <ul role="list" class="-mx-2 space-y-1">
+      <ul class="-mx-2 space-y-1">
         {#each items as item}
           <li>
-            <!-- Current: "bg-gray-800 text-white", Default: "text-gray-400 hover:text-white hover:bg-gray-800" -->
             <a
               href={item.href}
-              class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
+              class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-secondary hover:bg-primary hover:text-primary"
             >
               <svg
                 class="h-6 w-6 shrink-0"
@@ -34,59 +38,51 @@
       </ul>
     </li>
     <li>
-      <div class="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
-      <ul role="list" class="-mx-2 mt-2 space-y-1">
+      <div class="text-xs font-semibold leading-6 text-secondary">Your teams</div>
+      <ul class="-mx-2 mt-2 space-y-1">
         <li>
-          <!-- Current: "bg-gray-800 text-white", Default: "text-gray-400 hover:text-white hover:bg-gray-800" -->
-          <a
-            href="#"
-            class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
+          <button
+            class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-secondary hover:bg-primary hover:text-primary"
           >
             <span
-              class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white"
+              class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-secondary bg-primary text-[0.625rem] font-medium text-secondary group-hover:text-primary"
               >P</span
             >
             <span class="truncate">Planetaria</span>
-          </a>
+          </button>
         </li>
         <li>
-          <a
-            href="#"
-            class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
+          <button
+            class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-secondary hover:bg-primary hover:text-primary"
           >
             <span
-              class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white"
+              class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-secondary bg-primary text-[0.625rem] font-medium text-secondary group-hover:text-primary"
               >P</span
             >
             <span class="truncate">Protocol</span>
-          </a>
+          </button>
         </li>
         <li>
-          <a
-            href="#"
-            class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
+          <button
+            class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-secondary hover:bg-primary hover:text-primary"
           >
             <span
-              class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white"
+              class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-secondary bg-primary text-[0.625rem] font-medium text-secondary group-hover:text-primary"
               >T</span
             >
             <span class="truncate">Tailwind Labs</span>
-          </a>
+          </button>
         </li>
       </ul>
     </li>
     <li class="-mx-6 mt-auto">
       <a
-        href="#"
-        class="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-gray-800"
+        href="/settings"
+        class="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-primary hover:bg-primary"
       >
-        <img
-          class="h-8 w-8 rounded-full bg-gray-800"
-          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-          alt=""
-        />
-        <span class="sr-only">Your profile</span>
-        <span aria-hidden="true">Tom Cook</span>
+      <img src={$userSettings.image} alt="" class="h-8 w-8 rounded-full bg-secondary" />
+      <span class="sr-only">Your profile</span>
+      <span aria-hidden="true">{$userSettings.name}</span>
       </a>
     </li>
   </ul>

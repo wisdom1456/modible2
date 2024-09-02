@@ -205,9 +205,6 @@ export type NavItem = {
   label: string;
 };
 
-export type SectionSummary = {
-  [key: string]: {
-    label: string;
-    value: string | number;
-  };
-};
+export interface SectionSummary {
+  [key: string]: { label: string; value: string | number };
+}
