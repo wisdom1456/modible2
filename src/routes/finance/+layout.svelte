@@ -6,20 +6,6 @@
   import SummaryCard from "$lib/components/SummaryCard.svelte";
   import type { NavItem, SectionSummary } from '$lib/types';
 
-/*   const financeNavItems: NavItem[] = [
-    { href: "/finance/overview", label: "Overview" },
-    { href: "/finance/advanced", label: "Advanced" },
-    { href: "/finance/balance", label: "Balance" },
-    { href: "/finance/budgets", label: "Budgets" },
-    { href: "/finance/expenses", label: "Expenses" },
-    { href: "/finance/goals", label: "Goals" },
-    { href: "/finance/income", label: "Income" },
-    { href: "/finance/insights", label: "Insights" },
-    { href: "/finance/investments", label: "Investments" },
-    { href: "/finance/reports", label: "Reports" },
-    { href: "/finance/track", label: "Track" },
-  ]; */
-
   const financeNavItems: NavItem[] = [
     { href: "/finance/overview", label: "Overview" },
     { href: "/finance/expenses", label: "Expenses" },
@@ -27,7 +13,7 @@
     { href: "/finance/income", label: "Income" },
     { href: "/finance/transactions", label: "Transactions" },
     { href: "/finance/accounts", label: "Accounts" },
-]
+  ];
 
   const sectionTitle = "Finance";
   const sectionDescription = "Manage your financial activities";

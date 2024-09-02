@@ -1,12 +1,17 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { budgetStore } from '$lib/stores/financeStore';
   import type { BudgetItem } from '$lib/types/finance';
+  import { budgetStore } from '$lib/stores/financeStore';
+  import List from '$lib/components/common/List.svelte';
+  import Spinner from '$lib/components/common/Spinner.svelte';
+  import Error from '$lib/components/Error.svelte';
+  import AddEditBudgetItemModal from './AddEditBudgetItemModal.svelte';
 
   let budgetItems: BudgetItem[] = [];
-  let newBudgetItem: Omit<BudgetItem, 'id'> = { name: '', amount: 0, category: '' };
   let isLoading = false;
   let error: string | null = null;
+  let showModal = false;
+  let currentBudgetItem: BudgetItem | null = null;
 
   async function loadBudgetItems() {
     isLoading = true;
@@ -20,49 +25,59 @@
     }
   }
 
-  async function addBudgetItem() {
-    if (!newBudgetItem.name || newBudgetItem.amount <= 0 || !newBudgetItem.category) {
-      error = 'Invalid budget item details';
-      return;
-    }
-    isLoading = true;
-    error = null;
-    try {
-      await budgetStore.addBudgetItem(newBudgetItem);
-      await loadBudgetItems();
-      newBudgetItem = { name: '', amount: 0, category: '' };
-    } catch (e) {
-      error = e instanceof Error ? e.message : 'Failed to add budget item';
-    } finally {
-      isLoading = false;
-    }
+  function handleAdd() {
+    currentBudgetItem = null;
+    showModal = true;
+  }
+
+  function handleEdit(budgetItem: BudgetItem) {
+    currentBudgetItem = budgetItem;
+    showModal = true;
+  }
+
+  function handleCloseModal() {
+    showModal = false;
+    loadBudgetItems();
+  }
+
+  function renderEditButton(item: BudgetItem) {
+    return `
+      <button
+        on:click={() => handleEdit(item)}
+        on:keydown={(e) => e.key === 'Enter' && handleEdit(item)}
+        class="text-indigo-400 hover:text-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md p-1"
+        aria-label="Edit budget item ${item.name}"
+        tabindex="0"
+      >
+        Edit
+      </button>
+    `;
   }
 
   onMount(loadBudgetItems);
 </script>
 
-<div class="p-4 bg-white rounded-lg shadow-md" role="region" aria-labelledby="budget-heading">
-  <h2 id="budget-heading" class="text-2xl font-bold mb-4 text-gray-800">Budget</h2>
+<div class="p-4 bg-gray-900 rounded-lg shadow-md" role="region" aria-labelledby="budget-heading">
+  <h2 id="budget-heading" class="text-2xl font-bold mb-4 text-white">Budget</h2>
   
+  <button on:click={handleAdd} class="block rounded-md bg-indigo-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Add Budget Item</button>
+
   {#if isLoading}
-    <p class="text-gray-600">Loading budget items...</p>
+    <div class="flex justify-center items-center h-32">
+      <Spinner size="w-8 h-8" />
+    </div>
   {:else if error}
-    <p class="text-red-500" role="alert">Error: {error}</p>
+    <Error message={error} />
   {:else}
-    <ul class="space-y-2">
-      {#each budgetItems as item (item.id)}
-        <li class="flex justify-between p-2 bg-gray-100 rounded-lg">
-          <span class="text-gray-800">{item.name}</span>
-          <span class="text-gray-800">${item.amount}</span>
-          <span class="text-gray-800">{item.category}</span>
-        </li>
-      {/each}
-    </ul>
-    <form on:submit|preventDefault={addBudgetItem} class="mt-4 space-y-4" aria-label="Add new budget item">
-      <input bind:value={newBudgetItem.name} placeholder="Item Name" required class="input" />
-      <input type="number" bind:value={newBudgetItem.amount} placeholder="Amount" required class="input" />
-      <input bind:value={newBudgetItem.category} placeholder="Category" required class="input" />
-      <button type="submit" class="btn">Add Budget Item</button>
-    </form>
+    <List items={budgetItems} columns={[
+      { key: 'name', label: 'Name' },
+      { key: 'amount', label: 'Amount' },
+      { key: 'category', label: 'Category' },
+      { key: 'edit', label: '', render: renderEditButton }
+    ]} />
+  {/if}
+
+  {#if showModal}
+    <AddEditBudgetItemModal {currentBudgetItem} on:close={handleCloseModal} />
   {/if}
 </div>

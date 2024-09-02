@@ -1,29 +1,85 @@
 <script lang="ts">
-  // Add any necessary imports and logic here
-  let expenses = []; // This should be populated with actual expense data
-  let newExpense = { date: new Date(), amount: 0, category: '', description: '' };
+  import { onMount } from 'svelte';
+  import type { Transaction } from '$lib/types/finance';
+  import { transactionsStore } from '$lib/stores/financeStore';
+  import List from '$lib/components/common/List.svelte';
+  import Spinner from '$lib/components/common/Spinner.svelte';
+  import Error from '$lib/components/Error.svelte';
+  import AddEditTransactionModal from './AddEditTransactionModal.svelte';
 
-  function addExpense() {
-    // Implement logic to add a new expense
+  let expenses: Transaction[] = [];
+  let isLoading = false;
+  let error: string | null = null;
+  let showModal = false;
+  let currentTransaction: Transaction | null = null;
+
+  async function loadExpenses() {
+    isLoading = true;
+    error = null;
+    try {
+      const transactions = await transactionsStore.getTransactions();
+      expenses = transactions.filter(transaction => transaction.type === 'expense');
+    } catch (e) {
+      error = e instanceof Error ? e.message : 'Failed to fetch expenses';
+    } finally {
+      isLoading = false;
+    }
   }
+
+  function handleAdd() {
+    currentTransaction = null;
+    showModal = true;
+  }
+
+  function handleEdit(transaction: Transaction) {
+    currentTransaction = transaction;
+    showModal = true;
+  }
+
+  function handleCloseModal() {
+    showModal = false;
+    loadExpenses();
+  }
+
+  function renderEditButton(item: Transaction) {
+    return `
+      <button
+        on:click={() => handleEdit(item)}
+        on:keydown={(e) => e.key === 'Enter' && handleEdit(item)}
+        class="text-indigo-400 hover:text-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md p-1"
+        aria-label="Edit expense ${item.description}"
+        tabindex="0"
+      >
+        Edit
+      </button>
+    `;
+  }
+
+  onMount(loadExpenses);
 </script>
 
-<div class="p-4 bg-white rounded-lg shadow-md">
-  <h2 class="text-2xl font-bold mb-4 text-gray-800">Expenses</h2>
-  <p class="text-gray-600">This is the expenses page.</p>
-  <ul class="space-y-2">
-    {#each expenses as expense}
-      <li class="flex justify-between p-2 bg-gray-100 rounded-lg">
-        <span class="text-gray-800">{expense.date.toLocaleDateString()}</span>
-        <span class="text-gray-800">{expense.description} - ${expense.amount} ({expense.category})</span>
-      </li>
-    {/each}
-  </ul>
-  <form on:submit|preventDefault={addExpense} class="mt-4 space-y-4">
-    <input type="date" bind:value={newExpense.date} required class="input" />
-    <input type="number" bind:value={newExpense.amount} placeholder="Amount" required class="input" />
-    <input bind:value={newExpense.category} placeholder="Category" required class="input" />
-    <input bind:value={newExpense.description} placeholder="Description" required class="input" />
-    <button type="submit" class="btn">Add Expense</button>
-  </form>
+<div class="p-4 bg-gray-900 rounded-lg shadow-md" role="region" aria-labelledby="expenses-heading">
+  <h2 id="expenses-heading" class="text-2xl font-bold mb-4 text-white">Expenses</h2>
+  
+  <button on:click={handleAdd} class="block rounded-md bg-indigo-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Add Expense</button>
+
+  {#if isLoading}
+    <div class="flex justify-center items-center h-32">
+      <Spinner size="w-8 h-8" />
+    </div>
+  {:else if error}
+    <Error message={error} />
+  {:else}
+    <List items={expenses} columns={[
+      { key: 'date', label: 'Date' },
+      { key: 'amount', label: 'Amount' },
+      { key: 'category', label: 'Category' },
+      { key: 'description', label: 'Description' },
+      { key: 'edit', label: '', render: renderEditButton }
+    ]} />
+  {/if}
+
+  {#if showModal}
+    <AddEditTransactionModal {currentTransaction} on:close={handleCloseModal} />
+  {/if}
 </div>

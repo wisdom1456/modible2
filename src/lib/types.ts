@@ -1,63 +1,3 @@
-export interface Budget {
-  categories: BudgetCategory[];
-}
-
-export interface BudgetCategory {
-  id: string;
-  name: string;
-  amount: number;
-}
-
-export interface Expense {
-  id: string;
-  date: Date;
-  amount: number;
-  category: string;
-  description: string;
-}
-
-export interface Income {
-  id: string; // Add this line
-  date: Date;
-  amount: number;
-  source: string;
-  description: string;
-}
-
-export interface Investment {
-  id: string;
-  name: string;
-  value: number;
-  allocation: number;
-}
-
-export interface FinancialGoal {
-  id: string;
-  name: string;
-  targetAmount: number;
-  currentAmount: number;
-  targetDate: Date;
-}
-
-export interface FinancialSummary {
-  balance: number;
-  totalBalance: number; // Add this property
-  monthlyIncome: number; // Add this property
-  monthlyExpenses: number; // Add this property
-  expenses: Expense[];
-  incomes: Income[];
-  investments: Investment[];
-  goals: FinancialGoal[];
-  categories: BudgetCategory[]; // Add this property
-  dailyExpenses: Expense[]; // Add this property
-  insights: FinancialInsight[]; // Add this property
-}
-
-export interface InvestmentRecommendation {
-  id: string;
-  description: string;
-}
-
 export interface HealthPlan {
   id: string;
   name: string;
@@ -72,7 +12,7 @@ export interface Task {
   priority: "low" | "medium" | "high";
   category: string;
   subtasks?: Subtask[];
-  status: string; // Add this property
+  status: string;
 }
 
 export interface Subtask {
@@ -155,17 +95,10 @@ export interface WearableDevice {
 
 export interface SearchEventDetail {
   term: string;
-  // Add any other properties that are part of the SearchEventDetail
 }
 
 export interface KnowledgeSummary {
   completedCourses: number;
-  // Add other properties as needed
-}
-
-export interface BudgetItem {
-  name: string;
-  amount: number;
 }
 
 export interface UserProfile {
@@ -174,21 +107,9 @@ export interface UserProfile {
   currency: string;
 }
 
-// Add this interface
-export interface Transaction {
-  description: string;
-  amount: number;
-}
-
 export interface FinancialProfile {
   name: string;
-  email: string; // Add this field
-  // Add other fields as necessary
-}
-
-export interface FinancialInsight {
-  description: string;
-  value: number | string; // Change to allow both number and string
+  email: string;
 }
 
 export interface HealthGoal {
