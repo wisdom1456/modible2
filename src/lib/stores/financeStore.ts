@@ -3,10 +3,40 @@ import type { Account, BudgetItem, Expense, Income, Transaction } from '$lib/typ
 import { localStorageService } from '$lib/utils/localStorage';
 
 const accounts = writable<Account[]>(localStorageService.getAccounts());
-const transactions = writable<Transaction[]>(localStorageService.getTransactions());
+const transactions = writable<Transaction[]>([]);
 const budgetItems = writable<BudgetItem[]>(localStorageService.getBudgetItems());
 const incomes = writable<Income[]>(localStorageService.getIncomes());
 const expenses = writable<Expense[]>(localStorageService.getExpenses());
+
+function addTransaction(transaction: Transaction) {
+  transactions.update((items) => {
+    return [...items, transaction];
+  });
+}
+
+function updateTransaction(updatedTransaction: Transaction) {
+  transactions.update((items) => {
+    return items.map((item) => (item.id === updatedTransaction.id ? updatedTransaction : item));
+  });
+}
+
+function deleteTransaction(id: string) {
+  transactions.update((items) => {
+    return items.filter((item) => item.id !== id);
+  });
+}
+
+async function getTransactions(): Promise<Transaction[]> {
+  // Simulate fetching transactions from an API or local storage
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        { id: '1', date: new Date(), amount: 100, type: 'income', description: 'Salary' },
+        { id: '2', date: new Date(), amount: 50, type: 'expense', description: 'Groceries' },
+      ]);
+    }, 1000);
+  });
+}
 
 export const accountsStore = {
   subscribe: accounts.subscribe,
@@ -41,33 +71,10 @@ export const accountsStore = {
 
 export const transactionsStore = {
   subscribe: transactions.subscribe,
-  getTransactions: async () => {
-    const fetchedTransactions = localStorageService.getTransactions();
-    transactions.set(fetchedTransactions);
-    return fetchedTransactions;
-  },
-  addTransaction: async (transaction: Omit<Transaction, 'id'>) => {
-    const newTransaction: Transaction = { ...transaction, id: Date.now().toString() };
-    transactions.update((current) => {
-      const updated = [...current, newTransaction];
-      localStorageService.saveTransactions(updated);
-      return updated;
-    });
-  },
-  updateTransaction: async (transaction: Transaction) => {
-    transactions.update((current) => {
-      const updated = current.map((t) => (t.id === transaction.id ? transaction : t));
-      localStorageService.saveTransactions(updated);
-      return updated;
-    });
-  },
-  deleteTransaction: async (id: string) => {
-    transactions.update((current) => {
-      const updated = current.filter((t) => t.id !== id);
-      localStorageService.saveTransactions(updated);
-      return updated;
-    });
-  }
+  addTransaction,
+  updateTransaction,
+  deleteTransaction,
+  getTransactions,
 };
 
 export const budgetStore = {

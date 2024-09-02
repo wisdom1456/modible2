@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import type { Transaction } from '$lib/types/finance';
+  import type { Transaction } from '$lib/types';
   import { transactionsStore } from '$lib/stores/financeStore';
   import List from '$lib/components/common/List.svelte';
   import Spinner from '$lib/components/common/Spinner.svelte';

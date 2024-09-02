@@ -43,8 +43,8 @@
   }
 </script>
 
-<div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+<div class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75">
+  <div class="text-black bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
     <h2 class="text-xl font-bold mb-4">{currentAccount ? 'Edit Account' : 'Add Account'}</h2>
     {#if error}
       <p class="text-red-500 mb-4">{error}</p>

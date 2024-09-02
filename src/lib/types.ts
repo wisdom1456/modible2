@@ -129,3 +129,11 @@ export type NavItem = {
 export interface SectionSummary {
   [key: string]: { label: string; value: string | number };
 }
+
+export interface Transaction {
+  id: string;
+  date: Date;
+  amount: number;
+  type: 'income' | 'expense';
+  description: string;
+}

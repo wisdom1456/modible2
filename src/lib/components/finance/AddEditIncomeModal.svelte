@@ -6,9 +6,9 @@
   export let currentIncome: Income | null = null;
   const dispatch = createEventDispatcher();
 
-  let income: Omit<Income, "id"> = currentIncome
+  let income: Income = currentIncome
     ? { ...currentIncome }
-    : { date: new Date(), amount: 0, source: "", description: "" };
+    : { id: Date.now().toString(), date: new Date(), amount: 0, source: "", description: "" };
   let isLoading = false;
   let error: string | null = null;
 
@@ -17,7 +17,7 @@
     error = null;
     try {
       if (currentIncome) {
-        await incomesStore.updateIncome({ ...income, id: currentIncome.id });
+        await incomesStore.updateIncome(income);
       } else {
         await incomesStore.addIncome(income);
       }
@@ -48,8 +48,8 @@
   }
 </script>
 
-<div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+<div class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75">
+  <div class="bg-white text-black p-6 rounded-lg shadow-lg w-full max-w-md">
     <h2 class="text-xl font-bold mb-4">{currentIncome ? "Edit Income" : "Add Income"}</h2>
     {#if error}
       <p class="text-red-500 mb-4">{error}</p>
@@ -91,15 +91,12 @@
           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
         />
       </label>
-      <div class="flex justify-end">
-        <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600"
-          >Save</button
-        >
-        <button
-          type="button"
-          on:click={handleDelete}
-          class="ml-2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button
-        >
+      <div class="flex justify-end space-x-4">
+        {#if currentIncome}
+          <button type="button" on:click={handleDelete} class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">Delete</button>
+        {/if}
+        <button type="submit" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">{currentIncome ? 'Save' : 'Add'}</button>
+        <button type="button" on:click={() => dispatch('close')} class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Cancel</button>
       </div>
     </form>
   </div>

@@ -1,12 +1,12 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { transactionsStore } from '$lib/stores/financeStore';
-  import type { Transaction } from '$lib/types/finance';
+  import type { Transaction } from '$lib/types';
 
   export let currentTransaction: Transaction | null = null;
   const dispatch = createEventDispatcher();
 
-  let transaction: Omit<Transaction, 'id'> = currentTransaction ? { ...currentTransaction } : { date: new Date(), amount: 0, type: 'income', description: '' };
+  let transaction: Transaction = currentTransaction ? { ...currentTransaction } : { id: Date.now().toString(), date: new Date(), amount: 0, type: 'income', description: '' };
   let isLoading = false;
   let error: string | null = null;
 
@@ -15,7 +15,7 @@
     error = null;
     try {
       if (currentTransaction) {
-        await transactionsStore.updateTransaction({ ...transaction, id: currentTransaction.id });
+        await transactionsStore.updateTransaction(transaction);
       } else {
         await transactionsStore.addTransaction(transaction);
       }
@@ -43,8 +43,8 @@
   }
 </script>
 
-<div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+<div class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75">
+  <div class="bg-white text-black p-6 rounded-lg shadow-lg w-full max-w-md">
     <h2 class="text-xl font-bold mb-4">{currentTransaction ? 'Edit Transaction' : 'Add Transaction'}</h2>
     {#if error}
       <p class="text-red-500 mb-4">{error}</p>
