@@ -1,6 +1,14 @@
 <script lang="ts">
   export let items: any[] = [];
   export let columns: { key: string, label: string, render?: (item: any) => string }[] = [];
+
+  function formatDate(date: Date): string {
+    const d = new Date(date);
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    const year = d.getFullYear();
+    return `${month}/${day}/${year}`;
+  }
 </script>
 
 <div class="bg-gray-900">
@@ -33,6 +41,8 @@
                             <slot name="edit" item={item}></slot>
                           {:else if column.render}
                             {@html column.render(item)}
+                          {:else if column.key === 'date'}
+                            {formatDate(item[column.key])}
                           {:else}
                             {item[column.key]}
                           {/if}
