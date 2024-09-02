@@ -1,5 +1,8 @@
 <script lang="ts">
-  import FinanceDashboard from '$lib/components/finance/FinanceDashboard.svelte';
+  // Page-specific imports and logic
 </script>
 
-<FinanceDashboard />
+<h1 class="text-2xl font-bold mb-4">Investments</h1>
+<p class="text-gray-300 mb-4">Manage your investment portfolio.</p>
+
+<!-- Add investments-specific content here -->

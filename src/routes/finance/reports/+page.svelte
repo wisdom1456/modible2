@@ -1,45 +1,8 @@
 <script lang="ts">
-  import ModuleNavigation from '$lib/components/navigation/Unused/ModuleNavigation.svelte';
-  import { onMount } from 'svelte';
-  import { financeStore } from '$lib/stores/financeStore';
-
-  const financeNavItems = [
-    { href: '/finance', label: 'Overview' },
-    { href: '/finance/budget', label: 'Budget' },
-    { href: '/finance/expenses', label: 'Expenses' },
-    { href: '/finance/investments', label: 'Investments' },
-    { href: '/finance/goals', label: 'Financial Goals' },
-  ];
-
-  let goals = [];
-  let dailyExpenses = [];
-
-  onMount(() => {
-    const unsubscribe = financeStore.subscribe(value => {
-      if (value) {
-        goals = value.goals;
-        dailyExpenses = value.dailyExpenses || [];
-      }
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  });
+  // Page-specific imports and logic
 </script>
 
-<ModuleNavigation items={financeNavItems} />
+<h1 class="text-2xl font-bold mb-4">Financial Reports</h1>
+<p class="text-gray-300 mb-4">Generate and view financial reports.</p>
 
-<div class="p-4 bg-white rounded-lg shadow-md">
-  <h1 class="text-3xl font-bold mb-4 text-gray-800">Reports</h1>
-  <p>This page is under construction.</p>
-</div>
-
-<style>
-  /* Remove this if it's not used */
-  /*
-  .reports-container {
-    // Your styles here
-  }
-  */
-</style>
+<!-- Add financial reports-specific content here -->

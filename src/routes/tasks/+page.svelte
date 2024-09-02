@@ -1,5 +1,8 @@
 <script lang="ts">
-    import TasksDashboard from '$lib/components/tasks/TasksDashboard.svelte';
+    // Page-specific imports and logic
 </script>
 
-<TasksDashboard />
+<h1 class="text-2xl font-bold mb-4">All Tasks</h1>
+<p class="text-gray-300 mb-4">View and manage all your tasks in one place.</p>
+
+<!-- Add task list or task management component here -->

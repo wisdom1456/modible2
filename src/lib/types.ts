@@ -199,3 +199,15 @@ export interface HealthGoal {
   currentValue: number | string;
   targetDate: Date;
 }
+
+export type NavItem = {
+  href: string;
+  label: string;
+};
+
+export type SectionSummary = {
+  [key: string]: {
+    label: string;
+    value: string | number;
+  };
+};

@@ -1,16 +1,15 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import Sidebar from "./Sidebar.svelte";
+  import type { NavItem } from '$lib/types';
   
-  const mainNavItems = [
+  const mainNavItems: NavItem[] = [
     { href: "/dashboard", label: "Dashboard" },
     { href: "/health", label: "Health" },
     { href: "/finance", label: "Finance" },
     { href: "/tasks", label: "Tasks" },
     { href: "/knowledge", label: "Knowledge" },
   ];
-
-  export let module: string | undefined = undefined;
 </script>
 
 <div class="flex h-screen">
@@ -95,7 +94,8 @@
             class="h-8 w-auto"
             src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
             alt="Your Company"
-          />Modible
+          />
+          <a href="/">Modible</a>
         </div>
         <Sidebar items={mainNavItems}  />
       </div>
@@ -144,10 +144,9 @@
           </form>
         </div>
       </div>
-    </div>
 
-    <div class="flex-1 flex flex-col xl:pl-72">
-      <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+      
+      <main>
         <slot />
       </main>
     </div>

@@ -1,8 +1,8 @@
 <script lang="ts">
-  import MentalHealthTracker from '$lib/components/health/MentalHealthTracker.svelte';
+  // Page-specific imports and logic
 </script>
 
-<div class="p-4 bg-white rounded-lg shadow-md">
-  <h1 class="text-2xl font-bold mb-4 text-gray-800">Mental Health</h1>
-  <MentalHealthTracker />
-</div>
+<h1 class="text-2xl font-bold mb-4">Mental Health</h1>
+<p class="text-gray-300 mb-4">Monitor and improve your mental well-being.</p>
+
+<!-- Add mental health tracking component or content here -->
