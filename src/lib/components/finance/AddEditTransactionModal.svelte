@@ -6,7 +6,9 @@
   export let currentTransaction: Transaction | null = null;
   const dispatch = createEventDispatcher();
 
-  let transaction: Transaction = currentTransaction ? { ...currentTransaction } : { id: Date.now().toString(), date: new Date(), amount: 0, type: 'income', description: '' };
+  let transaction: Transaction = currentTransaction 
+    ? { ...currentTransaction } 
+    : { id: Date.now().toString(), date: new Date(), amount: 0, type: 'income', description: '' };
   let isLoading = false;
   let error: string | null = null;
 
@@ -24,21 +26,6 @@
       error = e instanceof Error ? e.message : 'Failed to save transaction';
     } finally {
       isLoading = false;
-    }
-  }
-
-  async function handleDelete() {
-    if (currentTransaction) {
-      isLoading = true;
-      error = null;
-      try {
-        await transactionsStore.deleteTransaction(currentTransaction.id);
-        dispatch('close');
-      } catch (e) {
-        error = e instanceof Error ? e.message : 'Failed to delete transaction';
-      } finally {
-        isLoading = false;
-      }
     }
   }
 </script>
@@ -59,20 +46,10 @@
         <input type="number" bind:value={transaction.amount} placeholder="Amount" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
       </label>
       <label class="block">
-        <span class="text-gray-700">Type</span>
-        <select bind:value={transaction.type} required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-          <option value="income">Income</option>
-          <option value="expense">Expense</option>
-        </select>
-      </label>
-      <label class="block">
         <span class="text-gray-700">Description</span>
         <input bind:value={transaction.description} placeholder="Description" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
       </label>
       <div class="flex justify-end space-x-4">
-        {#if currentTransaction}
-          <button type="button" on:click={handleDelete} class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">Delete</button>
-        {/if}
         <button type="submit" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">{currentTransaction ? 'Save' : 'Add'}</button>
         <button type="button" on:click={() => dispatch('close')} class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Cancel</button>
       </div>

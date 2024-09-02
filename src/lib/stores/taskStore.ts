@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import type { Task } from "$lib/types";
+import type { Task, Project } from "$lib/types";
 import { browser } from '$app/environment';
 
 function loadTasks(): Task[] {
@@ -30,7 +30,16 @@ function createTaskStore() {
       tasks.map(task => task.id === id ? { ...task, ...updates } : task)
     ),
     deleteTask: (id: string) => update(tasks => tasks.filter(task => task.id !== id)),
-    // Add more methods as needed
+    getProjects: async (): Promise<Project[]> => {
+      // Implement logic to fetch projects
+      return [];
+    },
+    updateProject: async (id: string, updates: Partial<Project>) => {
+      // Implement logic to update a project
+    },
+    deleteProject: async (id: string) => {
+      // Implement logic to delete a project
+    }
   };
 }
 

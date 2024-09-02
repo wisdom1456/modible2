@@ -3,8 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "$lib": ["src/lib"],
-      "$lib/*": ["src/lib/*"]
+      "$lib/*": ["src/lib/*"],
+      "$lib/types": ["src/lib/types.ts"]
     },
     "verbatimModuleSyntax": true,
     "ignoreDeprecations": "5.0",

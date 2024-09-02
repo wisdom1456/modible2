@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import type { Transaction } from '$lib/types/finance';
+  import type { Transaction } from '$lib/types';
   import { transactionsStore } from '$lib/stores/financeStore';
   import List from '$lib/components/common/List.svelte';
   import Spinner from '$lib/components/common/Spinner.svelte';
@@ -18,7 +18,7 @@
     error = null;
     try {
       const transactions = await transactionsStore.getTransactions();
-      expenses = transactions.filter(transaction => transaction.type === 'expense');
+      expenses = transactions.filter((transaction: Transaction) => transaction.type === 'expense');
     } catch (e) {
       error = e instanceof Error ? e.message : 'Failed to fetch expenses';
     } finally {

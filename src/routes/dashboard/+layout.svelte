@@ -7,7 +7,7 @@
   import type { NavItem, SectionSummary } from '$lib/types';
 
   const dashboardNavItems: NavItem[] = [
-    { href: "/dashboard", label: "Overview" },
+    { href: "/dashboard/", label: "Overview" },
     { href: "/dashboard/analytics", label: "Analytics" },
     { href: "/dashboard/reports", label: "Reports" },
   ];

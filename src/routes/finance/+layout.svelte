@@ -7,7 +7,7 @@
   import type { NavItem, SectionSummary } from '$lib/types';
 
   const financeNavItems: NavItem[] = [
-    { href: "/finance/overview", label: "Overview" },
+    { href: "/finance", label: "Overview" },
     { href: "/finance/expenses", label: "Expenses" },
     { href: "/finance/budget", label: "Budget" },
     { href: "/finance/income", label: "Income" },

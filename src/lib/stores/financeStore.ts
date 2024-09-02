@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import type { Account, BudgetItem, Expense, Income, Transaction } from '$lib/types/finance';
+import type { Account, BudgetItem, Expense, Income, Transaction } from '$lib/types';
 import { localStorageService } from '$lib/utils/localStorage';
 
 const accounts = writable<Account[]>(localStorageService.getAccounts());
