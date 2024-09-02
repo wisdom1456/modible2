@@ -6,24 +6,24 @@
   import SummaryCard from "$lib/components/SummaryCard.svelte";
   import type { NavItem, SectionSummary } from '$lib/types';
 
-  const tasksNavItems: NavItem[] = [
-    { href: "/tasks", label: "All Tasks" },
-    { href: "/tasks/active", label: "Active" },
-    { href: "/tasks/completed", label: "Completed" },
-    { href: "/tasks/assigned", label: "Assigned to Me" },
-    { href: "/tasks/analytics", label: "Analytics" },
+  const settingsNavItems: NavItem[] = [
+    { href: "/settings/overview", label: "Overview" },
+    { href: "/settings/security", label: "Security" },
+    { href: "/settings/notifications", label: "Notifications" },
+    { href: "/settings/billing", label: "Billing" },
+    { href: "/settings/privacy", label: "Privacy" },
   ];
 
-  const sectionTitle = "Tasks";
-  const sectionDescription = "Manage and track your tasks";
+  const sectionTitle = "Settings";
+  const sectionDescription = "Manage your account preferences";
 
-  const tasksSummary: SectionSummary = {
-    totalTasks: { label: "Total Tasks", value: "42" },
-    activeTasks: { label: "Active Tasks", value: "18" },
-    completedTasks: { label: "Completed Tasks", value: "24" },
+  const settingsSummary: SectionSummary = {
+    accountType: { label: "Account Type", value: "Premium" },
+    securityLevel: { label: "Security Level", value: "High" },
+    notificationPreferences: { label: "Notification Preferences", value: "Email, SMS" },
   };
 
-  $: activeSection = writable($page.url.pathname);
+  const activeSection = writable($page.url.pathname);
 
   function handleSectionChange(section: string) {
     goto(section);
@@ -31,31 +31,29 @@
 </script>
 
 <svelte:head>
-  <title>Tasks - {sectionTitle}</title>
+  <title>Settings - {sectionTitle}</title>
 </svelte:head>
 
-<div class="tasks-layout">
+<div class="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8 bg-gray-700/10">
   <SecondaryNavigation
-    sections={tasksNavItems.map((item) => ({ name: item.label, key: item.href }))}
+    sections={settingsNavItems.map((item) => ({ name: item.label, key: item.href }))}
     {activeSection}
     changeSection={handleSectionChange}
     on:sectionChange={(event) => handleSectionChange(event.detail)}
   />
-  <div class="flex flex-col items-start justify-between gap-x-8 gap-y-4 bg-gray-700/10 px-4 py-4 sm:flex-row sm:items-center sm:px-6 lg:px-8">
-    <div>
-      <h1 class="text-2xl font-semibold text-white">{sectionTitle}</h1>
-      <p class="mt-2 text-sm text-gray-400">{sectionDescription}</p>
-    </div>
-
-    <!-- Tasks Summary -->
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {#each Object.entries(tasksSummary) as [key, { label, value }]}
-        <SummaryCard {label} {value} />
-      {/each}
-    </div>
+  <div>
+    <h1 class="text-2xl font-semibold text-white">{sectionTitle}</h1>
+    <p class="mt-2 text-sm text-gray-400">{sectionDescription}</p>
   </div>
 
-  <main class="p-4 sm:p-6 lg:p-8">
-    <slot />
-  </main>
+  <!-- Settings Summary -->
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {#each Object.entries(settingsSummary) as [key, { label, value }]}
+      <SummaryCard {label} {value} />
+    {/each}
+  </div>
 </div>
+
+<main class="p-4 sm:p-6 lg:p-8">
+  <slot />
+</main>

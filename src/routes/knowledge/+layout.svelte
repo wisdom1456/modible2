@@ -6,22 +6,25 @@
   import SummaryCard from "$lib/components/SummaryCard.svelte";
   import type { NavItem, SectionSummary } from '$lib/types';
 
-  const settingsNavItems: NavItem[] = [
-    { href: "/settings", label: "Overview" },
-    { href: "/settings/security", label: "Security" },
-    { href: "/settings/notifications", label: "Notifications" },
+  const knowledgeNavItems: NavItem[] = [
+    { href: "/knowledge/articles", label: "Articles" },
+    { href: "/knowledge/bookmarks", label: "Bookmarks" },
+    { href: "/knowledge/courses", label: "Courses" },
+    { href: "/knowledge/goals", label: "Goals" },
+    { href: "/knowledge/library", label: "Library" },
+    { href: "/knowledge/skills", label: "Skills" },
   ];
 
-  const sectionTitle = "Settings";
-  const sectionDescription = "Manage your account preferences";
+  const sectionTitle = "Knowledge";
+  const sectionDescription = "Explore our knowledge base";
 
-  const settingsSummary: SectionSummary = {
-    accountType: { label: "Account Type", value: "Premium" },
-    securityLevel: { label: "Security Level", value: "High" },
-    notificationPreferences: { label: "Notification Preferences", value: "Email, SMS" },
+  const knowledgeSummary: SectionSummary = {
+    totalArticles: { label: "Total Articles", value: "150" },
+    totalTutorials: { label: "Total Tutorials", value: "50" },
+    totalGuides: { label: "Total Guides", value: "30" },
   };
 
-  $: activeSection = writable($page.url.pathname);
+  const activeSection = writable($page.url.pathname);
 
   function handleSectionChange(section: string) {
     goto(section);
@@ -29,31 +32,32 @@
 </script>
 
 <svelte:head>
-  <title>Settings - {sectionTitle}</title>
+  <title>Knowledge - {sectionTitle}</title>
 </svelte:head>
 
-<div class="settings-layout">
+<div class="knowledge-layout">
   <SecondaryNavigation
-    sections={settingsNavItems.map((item) => ({ name: item.label, key: item.href }))}
+    sections={knowledgeNavItems.map((item) => ({ name: item.label, key: item.href }))}
     {activeSection}
     changeSection={handleSectionChange}
     on:sectionChange={(event) => handleSectionChange(event.detail)}
   />
-  <div class="flex flex-col items-start justify-between gap-x-8 gap-y-4 bg-gray-700/10 px-4 py-4 sm:flex-row sm:items-center sm:px-6 lg:px-8">
-    <div>
-      <h1 class="text-2xl font-semibold text-white">{sectionTitle}</h1>
-      <p class="mt-2 text-sm text-gray-400">{sectionDescription}</p>
-    </div>
 
-    <!-- Settings Summary -->
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {#each Object.entries(settingsSummary) as [key, { label, value }]}
-        <SummaryCard {label} {value} />
-      {/each}
-    </div>
+  <div class="flex flex-col items-start justify-between gap-x-8 gap-y-4 bg-gray-700/10 px-4 py-4 sm:flex-row sm:items-center sm:px-6 lg:px-8">
+  <div>
+    <h1 class="text-2xl font-semibold text-white">{sectionTitle}</h1>
+    <p class="mt-2 text-sm text-gray-400">{sectionDescription}</p>
   </div>
 
-  <main class="p-4 sm:p-6 lg:p-8">
-    <slot />
-  </main>
+  <!-- Knowledge Summary -->
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {#each Object.entries(knowledgeSummary) as [key, { label, value }]}
+      <SummaryCard {label} {value} />
+    {/each}
+  </div>
+</div>
+
+<main class="p-4 sm:p-6 lg:p-8">
+  <slot />
+</main>
 </div>
