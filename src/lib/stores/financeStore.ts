@@ -2,6 +2,9 @@ import { writable } from 'svelte/store';
 import type { FinancialSummary, BudgetCategory, Expense, FinancialGoal, Income, Investment, Transaction, UserProfile, FinancialInsight, FinancialProfile } from '$lib/types';
 
 const financialSummary = writable<FinancialSummary | null>(null);
+const accounts = writable<Account[]>([]);
+const transactions = writable<Transaction[]>([]);
+const budgetItems = writable<BudgetItem[]>([]);
 
 export const financeStore = {
   subscribe: financialSummary.subscribe,
@@ -77,4 +80,37 @@ export const financeStore = {
     // Fetch budget
     return [];
   },
+};
+
+export const accountsStore = {
+  subscribe: accounts.subscribe,
+  getAccounts: async () => {
+    // Fetch accounts from local storage or API
+    return [];
+  },
+  addAccount: async (account: Omit<Account, 'id'>) => {
+    // Add account to local storage or API
+  }
+};
+
+export const transactionsStore = {
+  subscribe: transactions.subscribe,
+  getTransactions: async () => {
+    // Fetch transactions from local storage or API
+    return [];
+  },
+  addTransaction: async (transaction: Omit<Transaction, 'id'>) => {
+    // Add transaction to local storage or API
+  }
+};
+
+export const budgetStore = {
+  subscribe: budgetItems.subscribe,
+  getBudgetItems: async () => {
+    // Fetch budget items from local storage or API
+    return [];
+  },
+  addBudgetItem: async (item: Omit<BudgetItem, 'id'>) => {
+    // Add budget item to local storage or API
+  }
 };

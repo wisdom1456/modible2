@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import type { Income } from '$lib/types/finance';
   import { formatCurrency } from '$lib/utils/formatters';
-  import Error from '$lib/components/common/Error.svelte';
+  import Error from '$lib/components/Error.svelte';
   import { fetchIncomes, addIncome as addIncomeService } from '$lib/services/incomeService';
   import Spinner from '$lib/components/common/Spinner.svelte';
 

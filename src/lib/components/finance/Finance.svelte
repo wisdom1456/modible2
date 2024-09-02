@@ -17,7 +17,7 @@
 
 <div class="p-4 bg-white rounded-lg shadow-md">
     <SectionNavigation {changeSection} />
-    <div class="finance-content mt-4">
+    <div class="mt-4">
         {#if currentSection === 'dashboard'}
             <Dashboard />
         {:else if currentSection === 'budget'}
@@ -35,9 +35,3 @@
         {/if}
     </div>
 </div>
-
-<style>
-    .finance-content {
-        padding: 1rem;
-    }
-</style>
