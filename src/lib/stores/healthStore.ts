@@ -1,18 +1,21 @@
 import { writable } from 'svelte/store';
 import type { HealthGoal, EmotionalHealthData } from '$lib/types';
+import { saveToLocalStorage, loadFromLocalStorage } from '$lib/utils/localStorage';
 
 interface HealthState {
   goals: HealthGoal[];
   emotionalHealth: EmotionalHealthData;
 }
 
-const initialState: HealthState = {
+const initialState: HealthState = loadFromLocalStorage<HealthState>('health') || {
   goals: [],
   emotionalHealth: { happinessLevel: 0 }
 };
 
 function createHealthStore() {
   const { subscribe, set, update } = writable<HealthState>(initialState);
+
+  subscribe(value => saveToLocalStorage('health', value));
 
   return {
     subscribe,

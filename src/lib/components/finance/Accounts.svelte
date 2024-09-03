@@ -40,18 +40,8 @@
     loadAccounts();
   }
 
-  function renderEditButton(item: Account) {
-    return `
-      <button
-        on:click={() => handleEdit(item)}
-        on:keydown={(e) => e.key === 'Enter' && handleEdit(item)}
-        class="text-indigo-400 hover:text-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md p-1"
-        aria-label="Edit account ${item.name}"
-        tabindex="0"
-      >
-        Edit
-      </button>
-    `;
+  function renderEditButton(account: Account) {
+    return `<button on:click={() => handleEdit(account)}>Edit</button>`;
   }
 
   onMount(loadAccounts);

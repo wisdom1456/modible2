@@ -40,19 +40,6 @@
     loadBudgetItems();
   }
 
-  function renderEditButton(item: BudgetItem) {
-    return `
-      <button
-        on:click={() => handleEdit(item)}
-        on:keydown={(e) => e.key === 'Enter' && handleEdit(item)}
-        class="text-indigo-400 hover:text-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md p-1"
-        aria-label="Edit budget item ${item.name}"
-        tabindex="0"
-      >
-        Edit
-      </button>
-    `;
-  }
 
   onMount(loadBudgetItems);
 </script>
@@ -73,7 +60,6 @@
       { key: 'name', label: 'Name' },
       { key: 'amount', label: 'Amount' },
       { key: 'category', label: 'Category' },
-      { key: 'edit', label: '', render: renderEditButton }
     ]} 
       onEdit={handleEdit}  
       />

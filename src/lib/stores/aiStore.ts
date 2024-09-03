@@ -1,9 +1,11 @@
 import { writable } from "svelte/store";
+import { saveToLocalStorage, loadFromLocalStorage } from '$lib/utils/localStorage';
 
-export const aiStore = writable({
-  insights: [],
-  // Add more AI-related data here
-});
+const aiStore = writable(loadFromLocalStorage('aiStore') || { insights: [] });
+
+aiStore.subscribe(value => saveToLocalStorage('aiStore', value));
+
+export { aiStore };
 
 export function getInsights() {
   // Fetch and return AI insights

@@ -5,11 +5,14 @@ import type {
   PersonalDevelopmentGoal,
   Skill,
 } from "$lib/types";
+import { saveToLocalStorage, loadFromLocalStorage } from "$lib/utils/localStorage";
 
-const knowledge = writable({
+const knowledge = writable(loadFromLocalStorage('knowledge') || {
   completedCourses: 0,
   // Add other relevant fields
 });
+
+knowledge.subscribe(value => saveToLocalStorage('knowledge', value));
 
 export const knowledgeStore = {
   subscribe: knowledge.subscribe,

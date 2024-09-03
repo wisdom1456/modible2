@@ -1,12 +1,18 @@
 import { writable } from 'svelte/store';
 import type { Account, BudgetItem, Expense, Income, Transaction } from '$lib/types/finance';
-import { localStorageService } from '$lib/utils/localStorage';
+import { saveToLocalStorage, loadFromLocalStorage, localStorageService } from '$lib/utils/localStorage';
 
-const accounts = writable<Account[]>(localStorageService.getAccounts());
-const transactions = writable<Transaction[]>([]);
-const budgetItems = writable<BudgetItem[]>(localStorageService.getBudgetItems());
-const incomes = writable<Income[]>(localStorageService.getIncomes());
-const expenses = writable<Expense[]>(localStorageService.getExpenses());
+const accounts = writable<Account[]>(loadFromLocalStorage<Account[]>('accounts') || []);
+const transactions = writable<Transaction[]>(loadFromLocalStorage<Transaction[]>('transactions') || []);
+const budgetItems = writable<BudgetItem[]>(loadFromLocalStorage<BudgetItem[]>('budgetItems') || []);
+const incomes = writable<Income[]>(loadFromLocalStorage<Income[]>('incomes') || []);
+const expenses = writable<Expense[]>(loadFromLocalStorage<Expense[]>('expenses') || []);
+
+accounts.subscribe(value => saveToLocalStorage('accounts', value));
+transactions.subscribe(value => saveToLocalStorage('transactions', value));
+budgetItems.subscribe(value => saveToLocalStorage('budgetItems', value));
+incomes.subscribe(value => saveToLocalStorage('incomes', value));
+expenses.subscribe(value => saveToLocalStorage('expenses', value));
 
 function addTransaction(transaction: Transaction) {
   transactions.update((items) => {
@@ -25,17 +31,9 @@ function deleteTransaction(id: string) {
     return items.filter((item) => item.id !== id);
   });
 }
-
 async function getTransactions(): Promise<Transaction[]> {
-  // Simulate fetching transactions from an API or local storage
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        { id: '1', date: new Date(), amount: 100, type: 'income', description: 'Salary', category: 'McDonalds' },
-        { id: '2', date: new Date(), amount: 50, type: 'expense', description: 'Groceries', category: 'Food' },
-      ]);
-    }, 1000);
-  });
+  const storedTransactions = loadFromLocalStorage<Transaction[]>('transactions');
+  return storedTransactions || [];
 }
 
 export const accountsStore = {

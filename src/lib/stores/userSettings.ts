@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import { saveToLocalStorage, loadFromLocalStorage } from '$lib/utils/localStorage';
 
 const defaultSettings = {
   name: 'User',
@@ -7,8 +8,12 @@ const defaultSettings = {
   notifications: true
 };
 
+const initialSettings = loadFromLocalStorage<typeof defaultSettings>('userSettings') || defaultSettings;
+
 function createUserSettingsStore() {
-  const { subscribe, set, update } = writable(defaultSettings);
+  const { subscribe, set, update } = writable(initialSettings);
+
+  subscribe(value => saveToLocalStorage('userSettings', value));
 
   return {
     subscribe,

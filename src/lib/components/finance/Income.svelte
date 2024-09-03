@@ -40,18 +40,8 @@
     loadIncomes();
   }
 
-  function renderEditButton(item: Income) {
-    return `
-      <button
-        on:click={() => handleEdit(item)}
-        on:keydown={(e) => e.key === 'Enter' && handleEdit(item)}
-        class="text-indigo-400 hover:text-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md p-1"
-        aria-label="Edit income ${item.description}"
-        tabindex="0"
-      >
-        Edit
-      </button>
-    `;
+  function renderEditButton(income: Income) {
+    return `<button on:click={() => handleEdit(income)}>Edit</button>`;
   }
 
   onMount(loadIncomes);
@@ -81,7 +71,6 @@
         { key: "amount", label: "Amount" },
         { key: "source", label: "Source" },
         { key: "description", label: "Description" },
-        { key: "edit", label: "", render: renderEditButton }
       ]}
       onEdit={handleEdit}  
     />

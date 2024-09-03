@@ -1,29 +1,17 @@
 import { writable } from "svelte/store";
 import type { Task, Project } from "$lib/types";
-import { browser } from '$app/environment';
-
-function loadTasks(): Task[] {
-  if (browser) {
-    const storedTasks = localStorage.getItem('tasks');
-    return storedTasks ? JSON.parse(storedTasks) : [];
-  }
-  return [];
-}
-
-function saveTasks(tasks: Task[]) {
-  if (browser) {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-  }
-}
+import { saveToLocalStorage, loadFromLocalStorage } from '$lib/utils/localStorage';
 
 function createTaskStore() {
-  const { subscribe, set, update } = writable<Task[]>(loadTasks());
+  const { subscribe, set, update } = writable<Task[]>(loadFromLocalStorage<Task[]>('tasks') || []);
+
+  subscribe(value => saveToLocalStorage('tasks', value));
 
   return {
     subscribe,
     addTask: (task: Task) => update(tasks => {
       const newTasks = [...tasks, task];
-      saveTasks(newTasks);
+      saveToLocalStorage('tasks', newTasks);
       return newTasks;
     }),
     updateTask: (id: string, updates: Partial<Task>) => update(tasks =>

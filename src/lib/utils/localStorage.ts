@@ -45,3 +45,17 @@ export const localStorageService = {
     localStorage.setItem(LOCAL_STORAGE_KEYS.EXPENSES, JSON.stringify(expenses));
   }
 };
+
+export function saveToLocalStorage(key: string, data: any) {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(key, JSON.stringify(data));
+  }
+}
+
+export function loadFromLocalStorage<T>(key: string): T | null {
+  if (typeof window !== 'undefined') {
+    const storedData = localStorage.getItem(key);
+    return storedData ? JSON.parse(storedData) : null;
+  }
+  return null;
+}
