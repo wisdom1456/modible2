@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import type { Transaction } from '$lib/types';
+  import type { Transaction } from '$lib/types/finance';
   import { transactionsStore } from '$lib/stores/financeStore';
   import List from '$lib/components/common/List.svelte';
   import Spinner from '$lib/components/common/Spinner.svelte';
@@ -75,7 +75,9 @@
       { key: 'type', label: 'Type' },
       { key: 'description', label: 'Description' },
       { key: 'edit', label: '', render: renderEditButton }
-    ]} />
+    ]} 
+      onEdit={handleEdit}
+      />
   {/if}
 
   {#if showModal}

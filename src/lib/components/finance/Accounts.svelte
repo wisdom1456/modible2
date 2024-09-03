@@ -73,7 +73,9 @@
       { key: 'name', label: 'Name' },
       { key: 'balance', label: 'Balance' },
       { key: 'edit', label: '', render: renderEditButton }
-    ]} />
+    ]}
+      onEdit={handleEdit}  
+      />
   {/if}
 
   {#if showModal}

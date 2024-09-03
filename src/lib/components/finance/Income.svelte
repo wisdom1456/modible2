@@ -83,6 +83,7 @@
         { key: "description", label: "Description" },
         { key: "edit", label: "", render: renderEditButton }
       ]}
+      onEdit={handleEdit}  
     />
   {/if}
 

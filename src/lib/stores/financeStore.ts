@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import type { Account, BudgetItem, Expense, Income, Transaction } from '$lib/types';
+import type { Account, BudgetItem, Expense, Income, Transaction } from '$lib/types/finance';
 import { localStorageService } from '$lib/utils/localStorage';
 
 const accounts = writable<Account[]>(localStorageService.getAccounts());
@@ -31,8 +31,8 @@ async function getTransactions(): Promise<Transaction[]> {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve([
-        { id: '1', date: new Date(), amount: 100, type: 'income', description: 'Salary' },
-        { id: '2', date: new Date(), amount: 50, type: 'expense', description: 'Groceries' },
+        { id: '1', date: new Date(), amount: 100, type: 'income', description: 'Salary', category: 'McDonalds' },
+        { id: '2', date: new Date(), amount: 50, type: 'expense', description: 'Groceries', category: 'Food' },
       ]);
     }, 1000);
   });

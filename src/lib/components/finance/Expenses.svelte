@@ -1,11 +1,11 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import type { Transaction } from '$lib/types';
+  import type { Transaction } from '$lib/types/finance';
   import { transactionsStore } from '$lib/stores/financeStore';
   import List from '$lib/components/common/List.svelte';
   import Spinner from '$lib/components/common/Spinner.svelte';
   import Error from '$lib/components/Error.svelte';
-  import AddEditTransactionModal from './AddEditTransactionModal.svelte';
+  import AddEditExpenseModal from './AddEditExpenseModal.svelte';
 
   let expenses: Transaction[] = [];
   let isLoading = false;
@@ -41,20 +41,6 @@
     loadExpenses();
   }
 
-  function renderEditButton(item: Transaction) {
-    return `
-      <button
-        on:click={() => handleEdit(item)}
-        on:keydown={(e) => e.key === 'Enter' && handleEdit(item)}
-        class="text-indigo-400 hover:text-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md p-1"
-        aria-label="Edit expense ${item.description}"
-        tabindex="0"
-      >
-        Edit
-      </button>
-    `;
-  }
-
   onMount(loadExpenses);
 </script>
 
@@ -74,12 +60,11 @@
       { key: 'date', label: 'Date' },
       { key: 'amount', label: 'Amount' },
       { key: 'category', label: 'Category' },
-      { key: 'description', label: 'Description' },
-      { key: 'edit', label: '', render: renderEditButton }
-    ]} />
+      { key: 'description', label: 'Description' }
+    ]} onEdit={handleEdit} />
   {/if}
 
   {#if showModal}
-    <AddEditTransactionModal {currentTransaction} on:close={handleCloseModal} />
+    <AddEditExpenseModal {currentTransaction} on:close={handleCloseModal} />
   {/if}
 </div>

@@ -107,11 +107,6 @@ export interface UserProfile {
   currency: string;
 }
 
-export interface FinancialProfile {
-  name: string;
-  email: string;
-}
-
 export interface HealthGoal {
   title: string;
   description: string;
@@ -128,47 +123,4 @@ export type NavItem = {
 
 export interface SectionSummary {
   [key: string]: { label: string; value: string | number };
-}
-
-export interface Transaction {
-  id: string;
-  date: Date;
-  amount: number;
-  type: 'income' | 'expense';
-  description: string;
-}
-
-export interface FinancialSummary {
-  totalBalance: number;
-  monthlyIncome: number;
-  monthlyExpenses: number;
-}
-
-export interface Account {
-  id: string;
-  name: string;
-  balance: number;
-}
-
-export interface BudgetItem {
-  id: string;
-  name: string;
-  amount: number;
-  category: string;
-}
-
-export interface Expense {
-  id: string;
-  date: Date;
-  amount: number;
-  category: string;
-  description: string;
-}
-
-export interface Income {
-  id: string;
-  date: Date;
-  amount: number;
-  source: string;
-  description: string;
 }

@@ -74,7 +74,9 @@
       { key: 'amount', label: 'Amount' },
       { key: 'category', label: 'Category' },
       { key: 'edit', label: '', render: renderEditButton }
-    ]} />
+    ]} 
+      onEdit={handleEdit}  
+      />
   {/if}
 
   {#if showModal}

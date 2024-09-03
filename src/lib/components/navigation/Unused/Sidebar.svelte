@@ -1,7 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import { writable } from 'svelte/store';
-  import type { FinancialSummary } from '$lib/types';
 
   const menuItems = [
     { href: '/', label: 'Dashboard' },
@@ -12,7 +11,6 @@
   ];
 
   let activeSection = writable('overview');
-  let financialSummary: FinancialSummary | null = null;
 
   $: currentModule = $page.url.pathname.split('/')[1] || 'dashboard';
 

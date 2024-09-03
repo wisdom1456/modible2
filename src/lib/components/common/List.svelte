@@ -1,6 +1,11 @@
 <script lang="ts">
   export let items: any[] = [];
   export let columns: { key: string, label: string, render?: (item: any) => string }[] = [];
+  export let onEdit: (item: any) => void;
+
+  function handleEdit(item: any) {
+    onEdit(item);
+  }
 
   function formatDate(date: Date): string {
     const d = new Date(date);
@@ -30,6 +35,7 @@
                     {#each columns as column}
                       <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-0">{column.label}</th>
                     {/each}
+                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-0">Actions</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-800">
@@ -37,9 +43,7 @@
                     <tr>
                       {#each columns as column}
                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-300 sm:pl-0">
-                          {#if column.key === 'edit'}
-                            <slot name="edit" item={item}></slot>
-                          {:else if column.render}
+                          {#if column.render}
                             {@html column.render(item)}
                           {:else if column.key === 'date'}
                             {formatDate(item[column.key])}
@@ -48,6 +52,14 @@
                           {/if}
                         </td>
                       {/each}
+                      <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-300 sm:pl-0">
+                        <button
+                          on:click={() => handleEdit(item)}
+                          class="text-indigo-600 hover:text-indigo-900"
+                        >
+                          Edit
+                        </button>
+                      </td>
                     </tr>
                   {/each}
                 </tbody>

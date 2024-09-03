@@ -76,10 +76,58 @@ export interface Transaction {
   description: string;
   amount: number;
   date: Date;
+  category: string;
   type: 'income' | 'expense';
 }
 
 export interface FinancialInsight {
   description: string;
   value: number | string;
+}
+
+
+export interface Account {
+  id: string;
+  name: string;
+  balance: number;
+}
+
+
+
+export interface Transaction {
+  id: string;
+  date: Date;
+  amount: number;
+  type: 'income' | 'expense';
+  description: string;
+}
+
+export interface FinancialSummary {
+  totalBalance: number;
+  monthlyIncome: number;
+  monthlyExpenses: number;
+}
+
+
+export interface BudgetItem {
+  id: string;
+  name: string;
+  amount: number;
+  category: string;
+}
+
+export interface Expense {
+  id: string;
+  date: Date;
+  amount: number;
+  category: string;
+  description: string;
+}
+
+export interface Income {
+  id: string;
+  date: Date;
+  amount: number;
+  source: string;
+  description: string;
 }

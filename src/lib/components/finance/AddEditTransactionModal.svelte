@@ -1,14 +1,14 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { transactionsStore } from '$lib/stores/financeStore';
-  import type { Transaction } from '$lib/types';
+  import type { Transaction } from '$lib/types/finance';
 
   export let currentTransaction: Transaction | null = null;
   const dispatch = createEventDispatcher();
 
   let transaction: Transaction = currentTransaction 
     ? { ...currentTransaction } 
-    : { id: Date.now().toString(), date: new Date(), amount: 0, type: 'income', description: '' };
+    : { id: Date.now().toString(), date: new Date(), amount: 0, type: 'income', description: '' , category: ''};
   let isLoading = false;
   let error: string | null = null;
 
