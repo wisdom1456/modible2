@@ -85,14 +85,11 @@ export interface FinancialInsight {
   value: number | string;
 }
 
-
 export interface Account {
   id: string;
   name: string;
   balance: number;
 }
-
-
 
 export interface Transaction {
   id: string;
@@ -107,7 +104,6 @@ export interface FinancialSummary {
   monthlyIncome: number;
   monthlyExpenses: number;
 }
-
 
 export interface BudgetItem {
   id: string;

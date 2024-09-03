@@ -1,14 +1,19 @@
-import { writable } from "svelte/store";
-import type { WearableDevice } from "$lib/types";
-import { saveToLocalStorage, loadFromLocalStorage } from "$lib/utils/localStorage";
+import { writable } from 'svelte/store';
+import type { WearableDevice } from '$lib/types';
+import {
+  saveToLocalStorage,
+  loadFromLocalStorage,
+} from '$lib/utils/localStorage';
 
-const initialWearableState = loadFromLocalStorage<{ connectedDevices: WearableDevice[] }>('wearableStore') || {
+const initialWearableState = loadFromLocalStorage<{
+  connectedDevices: WearableDevice[];
+}>('wearableStore') || {
   connectedDevices: [],
 };
 
 const wearableStore = writable(initialWearableState);
 
-wearableStore.subscribe(value => saveToLocalStorage('wearableStore', value));
+wearableStore.subscribe((value) => saveToLocalStorage('wearableStore', value));
 
 export const getConnectedDevices = async (): Promise<WearableDevice[]> => {
   // Implement logic to get connected devices

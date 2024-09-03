@@ -1,16 +1,19 @@
-import { writable } from "svelte/store";
-import { saveToLocalStorage, loadFromLocalStorage } from '$lib/utils/localStorage';
+import { writable } from 'svelte/store';
+import {
+  saveToLocalStorage,
+  loadFromLocalStorage,
+} from '$lib/utils/localStorage';
 
 const initialUser = loadFromLocalStorage('user') || {
-  email: "",
-  password: "",
-  currency: "USD",
-  timeZone: "UTC",
+  email: '',
+  password: '',
+  currency: 'USD',
+  timeZone: 'UTC',
 };
 
 const user = writable(initialUser);
 
-user.subscribe(value => saveToLocalStorage('user', value));
+user.subscribe((value) => saveToLocalStorage('user', value));
 
 export const userStore = {
   subscribe: user.subscribe,

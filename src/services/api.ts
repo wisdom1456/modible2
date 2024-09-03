@@ -12,7 +12,9 @@ export async function saveExpenses(expenses: Expense[]): Promise<Expense[]> {
   return await apiRequest<Expense[]>('/api/expenses', 'POST', expenses);
 }
 
-export async function saveSavingsGoals(goals: SavingsGoal[]): Promise<SavingsGoal[]> {
+export async function saveSavingsGoals(
+  goals: SavingsGoal[],
+): Promise<SavingsGoal[]> {
   return await apiRequest<SavingsGoal[]>('/api/savings-goals', 'POST', goals);
 }
 
@@ -20,7 +22,7 @@ async function apiRequest<T>(url: string, method: string, data: T): Promise<T> {
   const response = await fetch(url, {
     method,
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   });
   if (!response.ok) {
     throw new Error(`API request failed: ${response.statusText}`);

@@ -1,18 +1,38 @@
 import { writable } from 'svelte/store';
-import type { Account, BudgetItem, Expense, Income, Transaction } from '$lib/types/finance';
-import { saveToLocalStorage, loadFromLocalStorage, localStorageService } from '$lib/utils/localStorage';
+import type {
+  Account,
+  BudgetItem,
+  Expense,
+  Income,
+  Transaction,
+} from '$lib/types/finance';
+import {
+  saveToLocalStorage,
+  loadFromLocalStorage,
+  localStorageService,
+} from '$lib/utils/localStorage';
 
-const accounts = writable<Account[]>(loadFromLocalStorage<Account[]>('accounts') || []);
-const transactions = writable<Transaction[]>(loadFromLocalStorage<Transaction[]>('transactions') || []);
-const budgetItems = writable<BudgetItem[]>(loadFromLocalStorage<BudgetItem[]>('budgetItems') || []);
-const incomes = writable<Income[]>(loadFromLocalStorage<Income[]>('incomes') || []);
-const expenses = writable<Expense[]>(loadFromLocalStorage<Expense[]>('expenses') || []);
+const accounts = writable<Account[]>(
+  loadFromLocalStorage<Account[]>('accounts') || [],
+);
+const transactions = writable<Transaction[]>(
+  loadFromLocalStorage<Transaction[]>('transactions') || [],
+);
+const budgetItems = writable<BudgetItem[]>(
+  loadFromLocalStorage<BudgetItem[]>('budgetItems') || [],
+);
+const incomes = writable<Income[]>(
+  loadFromLocalStorage<Income[]>('incomes') || [],
+);
+const expenses = writable<Expense[]>(
+  loadFromLocalStorage<Expense[]>('expenses') || [],
+);
 
-accounts.subscribe(value => saveToLocalStorage('accounts', value));
-transactions.subscribe(value => saveToLocalStorage('transactions', value));
-budgetItems.subscribe(value => saveToLocalStorage('budgetItems', value));
-incomes.subscribe(value => saveToLocalStorage('incomes', value));
-expenses.subscribe(value => saveToLocalStorage('expenses', value));
+accounts.subscribe((value) => saveToLocalStorage('accounts', value));
+transactions.subscribe((value) => saveToLocalStorage('transactions', value));
+budgetItems.subscribe((value) => saveToLocalStorage('budgetItems', value));
+incomes.subscribe((value) => saveToLocalStorage('incomes', value));
+expenses.subscribe((value) => saveToLocalStorage('expenses', value));
 
 function addTransaction(transaction: Transaction) {
   transactions.update((items) => {
@@ -22,7 +42,9 @@ function addTransaction(transaction: Transaction) {
 
 function updateTransaction(updatedTransaction: Transaction) {
   transactions.update((items) => {
-    return items.map((item) => (item.id === updatedTransaction.id ? updatedTransaction : item));
+    return items.map((item) =>
+      item.id === updatedTransaction.id ? updatedTransaction : item,
+    );
   });
 }
 
@@ -32,7 +54,8 @@ function deleteTransaction(id: string) {
   });
 }
 async function getTransactions(): Promise<Transaction[]> {
-  const storedTransactions = loadFromLocalStorage<Transaction[]>('transactions');
+  const storedTransactions =
+    loadFromLocalStorage<Transaction[]>('transactions');
   return storedTransactions || [];
 }
 
@@ -64,7 +87,7 @@ export const accountsStore = {
       localStorageService.saveAccounts(updated);
       return updated;
     });
-  }
+  },
 };
 
 export const transactionsStore = {
@@ -103,7 +126,7 @@ export const budgetStore = {
       localStorageService.saveBudgetItems(updated);
       return updated;
     });
-  }
+  },
 };
 
 export const incomesStore = {
@@ -134,7 +157,7 @@ export const incomesStore = {
       localStorageService.saveIncomes(updated);
       return updated;
     });
-  }
+  },
 };
 
 export const expensesStore = {
@@ -165,5 +188,5 @@ export const expensesStore = {
       localStorageService.saveExpenses(updated);
       return updated;
     });
-  }
+  },
 };

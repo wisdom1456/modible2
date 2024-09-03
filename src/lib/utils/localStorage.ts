@@ -1,11 +1,17 @@
-import type { Account, BudgetItem, Expense, Income, Transaction } from '$lib/types/finance';
+import type {
+  Account,
+  BudgetItem,
+  Expense,
+  Income,
+  Transaction,
+} from '$lib/types/finance';
 
 const LOCAL_STORAGE_KEYS = {
   ACCOUNTS: 'accounts',
   TRANSACTIONS: 'transactions',
   BUDGET_ITEMS: 'budgetItems',
   INCOMES: 'incomes',
-  EXPENSES: 'expenses'
+  EXPENSES: 'expenses',
 };
 
 export const localStorageService = {
@@ -21,14 +27,20 @@ export const localStorageService = {
     return data ? JSON.parse(data) : [];
   },
   saveTransactions: (transactions: Transaction[]) => {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.TRANSACTIONS, JSON.stringify(transactions));
+    localStorage.setItem(
+      LOCAL_STORAGE_KEYS.TRANSACTIONS,
+      JSON.stringify(transactions),
+    );
   },
   getBudgetItems: (): BudgetItem[] => {
     const data = localStorage.getItem(LOCAL_STORAGE_KEYS.BUDGET_ITEMS);
     return data ? JSON.parse(data) : [];
   },
   saveBudgetItems: (budgetItems: BudgetItem[]) => {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.BUDGET_ITEMS, JSON.stringify(budgetItems));
+    localStorage.setItem(
+      LOCAL_STORAGE_KEYS.BUDGET_ITEMS,
+      JSON.stringify(budgetItems),
+    );
   },
   getIncomes: (): Income[] => {
     const data = localStorage.getItem(LOCAL_STORAGE_KEYS.INCOMES);
@@ -43,7 +55,7 @@ export const localStorageService = {
   },
   saveExpenses: (expenses: Expense[]) => {
     localStorage.setItem(LOCAL_STORAGE_KEYS.EXPENSES, JSON.stringify(expenses));
-  }
+  },
 };
 
 export function saveToLocalStorage(key: string, data: any) {

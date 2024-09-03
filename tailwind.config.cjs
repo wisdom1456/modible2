@@ -1,9 +1,6 @@
 module.exports = {
   mode: 'jit',
-  purge: [
-    './src/**/*.{html,js,svelte,ts}',
-    './public/index.html'
-  ],
+  purge: ['./src/**/*.{html,js,svelte,ts}', './public/index.html'],
   theme: {
     extend: {
       colors: {
@@ -11,8 +8,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
-  ],
-}
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+};

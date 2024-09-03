@@ -1,6 +1,6 @@
 export function debounce<F extends (...args: any[]) => any>(
   func: F,
-  waitFor: number
+  waitFor: number,
 ) {
   let timeout: ReturnType<typeof setTimeout> | null = null;
 

@@ -23,9 +23,12 @@ export function validateStep1(profile: Profile): Record<string, string> {
   const errors: Record<string, string> = {};
 
   if (!validateEmail(profile.email)) errors.email = 'Invalid email address';
-  if (!validatePassword(profile.password)) errors.password = 'Password must be at least 8 characters long';
-  if (!validateCurrency(profile.currency)) errors.currency = 'Invalid currency selected';
-  if (!validateTimezone(profile.timezone)) errors.timezone = 'Invalid timezone selected';
+  if (!validatePassword(profile.password))
+    errors.password = 'Password must be at least 8 characters long';
+  if (!validateCurrency(profile.currency))
+    errors.currency = 'Invalid currency selected';
+  if (!validateTimezone(profile.timezone))
+    errors.timezone = 'Invalid timezone selected';
 
   return errors;
 }

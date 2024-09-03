@@ -17,7 +17,11 @@ function updateTask(updates: Partial<Task>) {
 
 function addSubtask(subtaskTitle: string) {
   if (task) {
-    const newSubtask: Subtask = { id: Date.now().toString(), title: subtaskTitle, completed: false };
+    const newSubtask: Subtask = {
+      id: Date.now().toString(),
+      title: subtaskTitle,
+      completed: false,
+    };
     taskStore.addSubtask(taskId, newSubtask);
   }
 }
@@ -30,6 +34,10 @@ function deleteSubtask(subtaskId: string) {
 
 function completeSubtask(subtask: Subtask) {
   if (task && task.subtasks) {
-    updateTask({ subtasks: task.subtasks.map(s => s.id === subtask.id ? { ...s, completed: true } : s) });
+    updateTask({
+      subtasks: task.subtasks.map((s) =>
+        s.id === subtask.id ? { ...s, completed: true } : s,
+      ),
+    });
   }
 }

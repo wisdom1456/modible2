@@ -1,18 +1,23 @@
-import { writable } from "svelte/store";
+import { writable } from 'svelte/store';
 import type {
   KnowledgeNote,
   LearningResource,
   PersonalDevelopmentGoal,
   Skill,
-} from "$lib/types";
-import { saveToLocalStorage, loadFromLocalStorage } from "$lib/utils/localStorage";
+} from '$lib/types';
+import {
+  saveToLocalStorage,
+  loadFromLocalStorage,
+} from '$lib/utils/localStorage';
 
-const knowledge = writable(loadFromLocalStorage('knowledge') || {
-  completedCourses: 0,
-  // Add other relevant fields
-});
+const knowledge = writable(
+  loadFromLocalStorage('knowledge') || {
+    completedCourses: 0,
+    // Add other relevant fields
+  },
+);
 
-knowledge.subscribe(value => saveToLocalStorage('knowledge', value));
+knowledge.subscribe((value) => saveToLocalStorage('knowledge', value));
 
 export const knowledgeStore = {
   subscribe: knowledge.subscribe,
@@ -59,7 +64,7 @@ export const knowledgeStore = {
   },
   updatePersonalDevelopmentGoal: (
     id: string,
-    updates: Partial<PersonalDevelopmentGoal>
+    updates: Partial<PersonalDevelopmentGoal>,
   ) => {
     // Update personal development goal logic
   },
@@ -85,7 +90,7 @@ export const knowledgeStore = {
   },
   addResource: async (resource: LearningResource): Promise<void> => {
     // Add a new resource to an API or database
-  }
+  },
 };
 
 export function getKnowledgeSummary() {

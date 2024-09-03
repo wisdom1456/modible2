@@ -1,5 +1,8 @@
-import { writable } from "svelte/store";
-import { saveToLocalStorage, loadFromLocalStorage } from '$lib/utils/localStorage';
+import { writable } from 'svelte/store';
+import {
+  saveToLocalStorage,
+  loadFromLocalStorage,
+} from '$lib/utils/localStorage';
 
 interface Widget {
   type: string;
@@ -7,9 +10,11 @@ interface Widget {
 }
 
 function createDashboardStore() {
-  const { subscribe, set, update } = writable<Widget[]>(loadFromLocalStorage<Widget[]>('dashboard') || []);
+  const { subscribe, set, update } = writable<Widget[]>(
+    loadFromLocalStorage<Widget[]>('dashboard') || [],
+  );
 
-  subscribe(value => saveToLocalStorage('dashboard', value));
+  subscribe((value) => saveToLocalStorage('dashboard', value));
 
   return {
     subscribe,

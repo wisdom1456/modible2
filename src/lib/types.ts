@@ -9,7 +9,7 @@ export interface Task {
   title: string;
   description: string;
   dueDate: Date | null;
-  priority: "low" | "medium" | "high";
+  priority: 'low' | 'medium' | 'high';
   category: string;
   subtasks?: Subtask[];
   status: string;

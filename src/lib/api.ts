@@ -1,13 +1,12 @@
-import { get } from "svelte/store";
-import { taskStore } from "$lib/stores/taskStore";
+import { taskStore } from '$lib/stores/taskStore';
 
 export async function fetchTasks() {
   try {
     const response = await fetch('/api/tasks', {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      }
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
     });
     if (!response.ok) {
       throw new Error('Failed to fetch tasks');
