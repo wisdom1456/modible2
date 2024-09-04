@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { transactionsStore } from '$lib/stores/financeStore';
-  import type { Transaction } from '$lib/types/finance';
+  import type { Transaction } from '$lib/types';
 
   export let currentTransaction: Transaction | null = null;
   const dispatch = createEventDispatcher();
@@ -43,27 +43,27 @@
     <h2 class="text-xl font-bold mb-4">{currentTransaction ? 'Edit Transaction' : 'Add Transaction'}</h2>
     <form on:submit|preventDefault={handleSave}>
       <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700">Description</label>
-        <input type="text" bind:value={description} class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+        <input id="description" type="text" bind:value={description} class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
       </div>
       <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700">Amount</label>
-        <input type="number" bind:value={amount} class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+        <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
+        <input id="amount" type="number" bind:value={amount} class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
       </div>
       <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700">Date</label>
-        <input type="date" bind:value={date} class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+        <label for="date" class="block text-sm font-medium text-gray-700">Date</label>
+        <input id="date" type="date" bind:value={date} class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
       </div>
       <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700">Type</label>
-        <select bind:value={type} class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+        <label for="type" class="block text-sm font-medium text-gray-700">Type</label>
+        <select id="type" bind:value={type} class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
           <option value="income">Income</option>
           <option value="expense">Expense</option>
         </select>
       </div>
       <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700">Category</label>
-        <input type="text" bind:value={category} class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+        <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+        <input id="category" type="text" bind:value={category} class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
       </div>
       <div class="flex justify-end">
         <button type="button" on:click={handleCancel} class="mr-2 inline-flex justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Cancel</button>
