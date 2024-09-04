@@ -1,11 +1,11 @@
 <script lang="ts">
-  // Your script here
+  export let message: string;
 </script>
 
 <style>
   /* Your styles here */
 </style>
 
-<div>
-  <!-- Your markup here -->
+<div class="text-red-500">
+  {message}
 </div>

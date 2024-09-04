@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { FinancialSummary } from '$lib/types';
+  import type { FinancialSummary } from '$lib/types/finance';
 
   export let financialSummary: FinancialSummary | null;
 </script>

@@ -1,23 +1,24 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import type { Income } from "$lib/types/finance";
-  import { incomesStore } from "$lib/stores/financeStore";
+  import type { Transaction } from "$lib/types";
+  import { transactionsStore } from "$lib/stores/financeStore";
   import List from "$lib/components/common/List.svelte";
   import Spinner from "$lib/components/common/Spinner.svelte";
   import Error from "$lib/components/Error.svelte";
   import AddEditIncomeModal from "./AddEditIncomeModal.svelte";
 
-  let incomes: Income[] = [];
+  let incomes: Transaction[] = [];
   let isLoading = false;
   let error: string | null = null;
   let showModal = false;
-  let currentIncome: Income | null = null;
+  let currentIncome: Transaction | null = null;
 
   async function loadIncomes() {
     isLoading = true;
     error = null;
     try {
-      incomes = await incomesStore.getIncomes();
+      const transactions = await transactionsStore.getTransactions();
+      incomes = transactions.filter((transaction: Transaction) => transaction.type === 'income');
     } catch (e) {
       error = e instanceof Error ? e.message : "Failed to fetch incomes";
     } finally {
@@ -30,7 +31,7 @@
     showModal = true;
   }
 
-  function handleEdit(income: Income) {
+  function handleEdit(income: Transaction) {
     currentIncome = income;
     showModal = true;
   }
@@ -38,10 +39,6 @@
   function handleCloseModal() {
     showModal = false;
     loadIncomes();
-  }
-
-  function renderEditButton(income: Income) {
-    return `<button on:click={() => handleEdit(income)}>Edit</button>`;
   }
 
   onMount(loadIncomes);

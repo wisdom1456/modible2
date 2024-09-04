@@ -1,26 +1,12 @@
 export interface Budget {
-  categories: BudgetCategory[];
+  categories: BudgetItem[];
 }
 
-export interface BudgetCategory {
+export interface BudgetItem {
   id: string;
   name: string;
-  amount: number;
-}
-
-export interface Expense {
-  id: string;
-  date: Date;
-  amount: number;
-  category: string;
-  description: string;
-}
-
-export interface Income {
-  id: string;
-  date: Date;
-  amount: number;
-  source: string;
+  budgeted: number;
+  totalSpent: number;
   description: string;
 }
 
@@ -44,12 +30,11 @@ export interface FinancialSummary {
   totalBalance: number;
   monthlyIncome: number;
   monthlyExpenses: number;
-  expenses: Expense[];
-  incomes: Income[];
+  transactions: Transaction[];
   investments: Investment[];
   goals: FinancialGoal[];
-  categories: BudgetCategory[];
-  dailyExpenses: Expense[];
+  categories: BudgetItem[];
+  dailyExpenses: Transaction[];
   insights: FinancialInsight[];
 }
 
@@ -64,15 +49,9 @@ export interface Account {
   balance: number;
 }
 
-export interface BudgetItem {
-  id: string;
-  name: string;
-  amount: number;
-  category: string;
-}
-
 export interface Transaction {
   id: string;
+  name: string;
   description: string;
   amount: number;
   date: Date;
@@ -95,6 +74,7 @@ export interface Transaction {
   id: string;
   date: Date;
   amount: number;
+  category: string;
   type: 'income' | 'expense';
   description: string;
 }
@@ -103,27 +83,4 @@ export interface FinancialSummary {
   totalBalance: number;
   monthlyIncome: number;
   monthlyExpenses: number;
-}
-
-export interface BudgetItem {
-  id: string;
-  name: string;
-  amount: number;
-  category: string;
-}
-
-export interface Expense {
-  id: string;
-  date: Date;
-  amount: number;
-  category: string;
-  description: string;
-}
-
-export interface Income {
-  id: string;
-  date: Date;
-  amount: number;
-  source: string;
-  description: string;
 }

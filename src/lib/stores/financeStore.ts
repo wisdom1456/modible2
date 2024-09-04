@@ -1,11 +1,5 @@
 import { writable } from 'svelte/store';
-import type {
-  Account,
-  BudgetItem,
-  Expense,
-  Income,
-  Transaction,
-} from '$lib/types/finance';
+import type { Account, BudgetItem, Transaction } from '$lib/types/finance';
 import {
   saveToLocalStorage,
   loadFromLocalStorage,
@@ -21,38 +15,27 @@ const transactions = writable<Transaction[]>(
 const budgetItems = writable<BudgetItem[]>(
   loadFromLocalStorage<BudgetItem[]>('budgetItems') || [],
 );
-const incomes = writable<Income[]>(
-  loadFromLocalStorage<Income[]>('incomes') || [],
-);
-const expenses = writable<Expense[]>(
-  loadFromLocalStorage<Expense[]>('expenses') || [],
-);
 
 accounts.subscribe((value) => saveToLocalStorage('accounts', value));
 transactions.subscribe((value) => saveToLocalStorage('transactions', value));
 budgetItems.subscribe((value) => saveToLocalStorage('budgetItems', value));
-incomes.subscribe((value) => saveToLocalStorage('incomes', value));
-expenses.subscribe((value) => saveToLocalStorage('expenses', value));
 
 function addTransaction(transaction: Transaction) {
-  transactions.update((items) => {
-    return [...items, transaction];
-  });
+  transactions.update((items) => [...items, transaction]);
 }
 
 function updateTransaction(updatedTransaction: Transaction) {
-  transactions.update((items) => {
-    return items.map((item) =>
+  transactions.update((items) =>
+    items.map((item) =>
       item.id === updatedTransaction.id ? updatedTransaction : item,
-    );
-  });
+    ),
+  );
 }
 
 function deleteTransaction(id: string) {
-  transactions.update((items) => {
-    return items.filter((item) => item.id !== id);
-  });
+  transactions.update((items) => items.filter((item) => item.id !== id));
 }
+
 async function getTransactions(): Promise<Transaction[]> {
   const storedTransactions =
     loadFromLocalStorage<Transaction[]>('transactions');
@@ -124,68 +107,6 @@ export const budgetStore = {
     budgetItems.update((current) => {
       const updated = current.filter((i) => i.id !== id);
       localStorageService.saveBudgetItems(updated);
-      return updated;
-    });
-  },
-};
-
-export const incomesStore = {
-  subscribe: incomes.subscribe,
-  getIncomes: async () => {
-    const fetchedIncomes = localStorageService.getIncomes();
-    incomes.set(fetchedIncomes);
-    return fetchedIncomes;
-  },
-  addIncome: async (income: Omit<Income, 'id'>) => {
-    const newIncome: Income = { ...income, id: Date.now().toString() };
-    incomes.update((current) => {
-      const updated = [...current, newIncome];
-      localStorageService.saveIncomes(updated);
-      return updated;
-    });
-  },
-  updateIncome: async (income: Income) => {
-    incomes.update((current) => {
-      const updated = current.map((i) => (i.id === income.id ? income : i));
-      localStorageService.saveIncomes(updated);
-      return updated;
-    });
-  },
-  deleteIncome: async (id: string) => {
-    incomes.update((current) => {
-      const updated = current.filter((i) => i.id !== id);
-      localStorageService.saveIncomes(updated);
-      return updated;
-    });
-  },
-};
-
-export const expensesStore = {
-  subscribe: expenses.subscribe,
-  getExpenses: async () => {
-    const fetchedExpenses = localStorageService.getExpenses();
-    expenses.set(fetchedExpenses);
-    return fetchedExpenses;
-  },
-  addExpense: async (expense: Omit<Expense, 'id'>) => {
-    const newExpense: Expense = { ...expense, id: Date.now().toString() };
-    expenses.update((current) => {
-      const updated = [...current, newExpense];
-      localStorageService.saveExpenses(updated);
-      return updated;
-    });
-  },
-  updateExpense: async (expense: Expense) => {
-    expenses.update((current) => {
-      const updated = current.map((e) => (e.id === expense.id ? expense : e));
-      localStorageService.saveExpenses(updated);
-      return updated;
-    });
-  },
-  deleteExpense: async (id: string) => {
-    expenses.update((current) => {
-      const updated = current.filter((e) => e.id !== id);
-      localStorageService.saveExpenses(updated);
       return updated;
     });
   },

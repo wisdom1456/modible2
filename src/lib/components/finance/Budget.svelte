@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import type { BudgetItem } from '$lib/types/finance';
+  import type { BudgetItem } from '$lib/types';
   import { budgetStore } from '$lib/stores/financeStore';
   import List from '$lib/components/common/List.svelte';
   import Spinner from '$lib/components/common/Spinner.svelte';
@@ -39,7 +39,6 @@
     showModal = false;
     loadBudgetItems();
   }
-
 
   onMount(loadBudgetItems);
 </script>

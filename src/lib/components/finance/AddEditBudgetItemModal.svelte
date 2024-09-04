@@ -6,7 +6,7 @@
   export let currentBudgetItem: BudgetItem | null = null;
   const dispatch = createEventDispatcher();
 
-  let budgetItem: Omit<BudgetItem, 'id'> = currentBudgetItem ? { ...currentBudgetItem } : { name: '', amount: 0, category: '' };
+  let budgetItem: Omit<BudgetItem, 'id'> = currentBudgetItem ? { ...currentBudgetItem } : { name: '', budgeted: 0, totalSpent: 0, description: '' };
   let isLoading = false;
   let error: string | null = null;
 
@@ -56,12 +56,12 @@
       </label>
       <label class="block">
         <span class="text-gray-700">Amount</span>
-        <input type="number" bind:value={budgetItem.amount} placeholder="Amount" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+        <input type="number" bind:value={budgetItem.budgeted} placeholder="Amount" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
       </label>
       <label class="block">
         <span class="text-gray-700">Category</span>
         <div class="relative mt-2">
-          <input id="combobox" type="text" bind:value={budgetItem.category} class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="options" aria-expanded="false">
+          <input id="combobox" type="text" bind:value={budgetItem.description} class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="options" aria-expanded="false">
           <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
             <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
