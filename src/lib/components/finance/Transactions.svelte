@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import type { Transaction } from '$lib/types/finance';
+  import type { Transaction } from '$lib/types';
   import { transactionsStore } from '$lib/stores/financeStore';
   import List from '$lib/components/common/List.svelte';
   import Spinner from '$lib/components/common/Spinner.svelte';
@@ -40,10 +40,6 @@
     loadTransactions();
   }
 
-  function renderEditButton(transaction: Transaction) {
-    return `<button on:click={() => handleEdit(transaction)}>Edit</button>`;
-  }
-
   onMount(loadTransactions);
 </script>
 
@@ -63,8 +59,7 @@
       { key: 'date', label: 'Date' },
       { key: 'amount', label: 'Amount' },
       { key: 'type', label: 'Type' },
-      { key: 'description', label: 'Description' },
-      { key: 'edit', label: '', render: renderEditButton }
+      { key: 'description', label: 'Description' }
     ]} 
       onEdit={handleEdit}
       />

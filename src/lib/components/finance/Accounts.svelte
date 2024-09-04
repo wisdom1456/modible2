@@ -40,10 +40,6 @@
     loadAccounts();
   }
 
-  function renderEditButton(account: Account) {
-    return `<button on:click={() => handleEdit(account)}>Edit</button>`;
-  }
-
   onMount(loadAccounts);
 </script>
 
@@ -61,8 +57,7 @@
   {:else}
     <List items={accounts} columns={[
       { key: 'name', label: 'Name' },
-      { key: 'balance', label: 'Balance' },
-      { key: 'edit', label: '', render: renderEditButton }
+      { key: 'balance', label: 'Balance' }
     ]}
       onEdit={handleEdit}  
       />
