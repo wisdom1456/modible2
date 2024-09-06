@@ -1,5 +1,4 @@
 <script lang="ts">
-  import ModuleNavigation from '$lib/components/navigation/Unused/ModuleNavigation.svelte';
 
   const healthNavItems = [
     { href: '/health', label: 'Overview' },
@@ -8,6 +7,5 @@
   ];
 </script>
 
-<ModuleNavigation module="Health" items={healthNavItems} />
 <h1>Health Tracker Placeholder</h1>
 <p>This page is under construction.</p>

@@ -3,16 +3,18 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build",
+    "build": "svelte-kit build",
     "preview": "vite preview",
     "test": "playwright test",
     "clean": "rimraf .svelte-kit build",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "start": "node build"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.5.8",
     "@playwright/test": "^1.46.1",
-    "@sveltejs/adapter-auto": "next",
+    "@sveltejs/adapter-node": "next",
     "@sveltejs/kit": "next",
     "@typescript-eslint/eslint-plugin": "^8.4.0",
     "@typescript-eslint/parser": "^8.4.0",

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import ModuleNavigation from '$lib/components/navigation/Unused/ModuleNavigation.svelte';
   import KnowledgeDashboard from '$lib/components/knowledge/KnowledgeDashboard.svelte';
 
   const knowledgeNavItems = [
@@ -11,7 +10,6 @@
   ];
 </script>
 
-<ModuleNavigation module="Knowledge" items={knowledgeNavItems} />
 <h1>Skills Placeholder</h1>
 <p>This page is under construction.</p>
 

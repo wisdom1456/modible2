@@ -1,5 +1,4 @@
 <script lang="ts">
-  import ModuleNavigation from '$lib/components/navigation/Unused/ModuleNavigation.svelte';
   import { onMount } from 'svelte';
   import { healthStore } from '$lib/stores/healthStore';
   import type { HealthGoal } from '$lib/types';
@@ -24,8 +23,6 @@
     };
   });
 </script>
-
-<ModuleNavigation items={healthNavItems} />
 
 <div class="p-8 bg-gray-100 min-h-screen">
   <h1 class="text-2xl font-bold mb-4">Health Goals</h1>
