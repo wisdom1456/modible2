@@ -1,5 +1,4 @@
 <script lang="ts">
-  // Page-specific imports and logic
   import Expenses from '$lib/components/finance/Expenses.svelte';
 </script>
 
