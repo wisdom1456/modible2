@@ -76,6 +76,9 @@ export const accountsStore = {
 export const transactionsStore = {
   subscribe: transactions.subscribe,
   addTransaction,
+  addTransactions: (newTransactions: Transaction[]) => {
+    transactions.update((items) => [...items, ...newTransactions]);
+  },
   updateTransaction,
   deleteTransaction,
   getTransactions,
